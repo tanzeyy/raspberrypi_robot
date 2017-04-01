@@ -12,7 +12,7 @@ def IsYellow(image):
     upper_yellow = np.array([130, 255, 255])
 
     # Threshold to be determined
-    thr = 1000
+    thr = 10000
 
     # Read image
     img = cv2.imread(image)
