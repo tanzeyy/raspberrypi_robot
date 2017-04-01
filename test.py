@@ -12,7 +12,8 @@ def run(shelf):
     images = os.listdir("images_classify/images/%s" % shelf)
     if shelf == 'A':
         results = json.dumps(iy.FindYellowCube(images))
-    else results = json.dumps(li.LabelImages(images, shelf))
+    else:
+        results = json.dumps(li.LabelImages(images, shelf))
 
     with open("images_classify/results/%s.json" % shelf, 'wr') as f:
         f.write(results)
