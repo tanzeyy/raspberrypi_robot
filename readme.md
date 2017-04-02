@@ -4,12 +4,14 @@
 #### Windows：
 - Python 3.5.*
 - OpenCV 3.2.*
+- Numpy 1.12.1
 - Tensorflow 1.0.1
 
 #### Linux:
 ##### 推荐使用Ubuntu 14.04/16.04 LTS
 - Python 2.7.*
 - OpenCV 2.4.*
+- Numpy 1.12.1
 - Tensorflow 1.0.1
 
 ### 使用方法：
