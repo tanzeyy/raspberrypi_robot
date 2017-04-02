@@ -4,29 +4,25 @@ import json
 # Import local functions
 import images_classify.detectors.label_images as li
 import images_classify.preproc.capture as cap
-import images_classify.detectors.is_yellow as iy
 
 
-def run(shelf, cap_src=0):
-    cap.Capture(shelf, cap_src)
-    images = os.listdir("images_classify/images/%s" % shelf)
+def run(cap_src=0):
+    cap.Capture(cap_src)
+    images = os.listdir("images_classify/images")
 
-    if shelf == 'A':
-        results = json.dumps(iy.FindYellowCube(images))
-    else:
-        results = json.dumps(li.LabelImages(images, shelf))
+    results = json.dumps(li.LabelImages(images))
 
     if not os.path.exists('images_classify/results'):
         os.makedirs('images_classify/results')
 
-    with open("images_classify/results/%s.json" % shelf, 'wr') as f:
+    with open("images_classify/results/results.json", 'w') as f:
         f.write(results)
 
 if __name__ == '__main__':
     import sys
     try:
-        shelf = sys.argv[1]
+        cap_src = sys.argv[1]
     except:
-        shelf = 'A'
+        cap_src = 0
 
-    run(shelf)
+    run(cap_src)
