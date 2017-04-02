@@ -4,7 +4,7 @@ import os
 
 upper = [0, 240]
 lower = [240, 480]
-w = [200, 400]
+w = [0, 640]
 blocks = {
     "upper": (w, upper),
     "lower": (w, lower)
@@ -32,4 +32,4 @@ def Capture(cap_src):
     cap.release()
     cv2.destroyAllWindows()
 
-Capture(0)
+# Capture(0)

@@ -2,8 +2,8 @@ import os
 import json
 
 # Import local functions
-import images_classify.detectors.label_images as li
-import images_classify.preproc.capture as cap
+import images_classify.label_images as li
+import images_classify.capture as cap
 
 
 def run(cap_src=0):

@@ -4,6 +4,7 @@ yakult
 tennis ball
 jdb
 wired ball
-shuttlecock
+yellow cube
 mimi
+shuttlecock
 mouse
