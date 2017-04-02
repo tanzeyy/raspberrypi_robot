@@ -7,13 +7,17 @@ import images_classify.preproc.capture as cap
 import images_classify.detectors.is_yellow as iy
 
 
-def run(shelf):
-    cap.Capture(shelf)
+def run(shelf, cap_src=0):
+    cap.Capture(shelf, cap_src)
     images = os.listdir("images_classify/images/%s" % shelf)
+
     if shelf == 'A':
         results = json.dumps(iy.FindYellowCube(images))
     else:
         results = json.dumps(li.LabelImages(images, shelf))
+
+    if not os.path.exists('images_classify/results'):
+        os.makedirs('images_classify/results')
 
     with open("images_classify/results/%s.json" % shelf, 'wr') as f:
         f.write(results)
