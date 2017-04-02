@@ -15,6 +15,7 @@ def LabelImages(images, shelf):
         graph_def.ParseFromString(f.read())
         _ = tf.import_graph_def(graph_def, name='')
 
+    # Open a session to label images
     with tf.Session() as sess:
         for image in images:
             softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')

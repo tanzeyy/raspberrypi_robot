@@ -29,6 +29,8 @@ def IsYellow(image):
     # Compare with the threshold
     if pixel_num > thr:
         return 1
+    else:
+        return 0
 
 
 def FindYellowCube(images, func=IsYellow):

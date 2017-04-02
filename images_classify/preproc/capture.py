@@ -21,7 +21,7 @@ blocks = {
 }
 
 
-def Capture(shelf, cap_src=0):
+def Capture(shelf, cap_src):
 
     cap = cv2.VideoCapture(cap_src)
     cap.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 1280)
@@ -42,4 +42,4 @@ def Capture(shelf, cap_src=0):
     cap.release()
     cv2.destroyAllWindows()
 
-# Capture(0, "A")
+# Capture("A", 0)
