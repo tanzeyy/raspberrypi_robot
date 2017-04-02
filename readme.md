@@ -15,8 +15,11 @@
 ### 使用方法：
 - 在根目录下打开终端(cmd, powershell or terminal)
 - 在终端中输入
-`
-python test.py [<video source>]
-`
+    ```
+    python test.py [<video source>]
+    ```
 - 拍照之后将图像分割成上下两部分分别识别
-- 识别结果存放在`images_classify/results/results.json`
+- 识别结果存放在
+    ```
+    images_classify/results/results.json
+    ```
