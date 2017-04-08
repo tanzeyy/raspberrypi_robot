@@ -133,14 +133,11 @@ diagram.walls = [(4, 4), (4, 5), (4, 6), (4, 7),
                  (7, 4), (7, 5), (7, 6), (7, 7)]
 
 
-start = (3, 2)
-goal = (8, 6)
+# start = (3, 2)
+# goal = (8, 6)
 
-came_from, cost_so_far, frontier = dijkstra_search(diagram, start, goal)
-# print(came_from)
-path = reconstruct_path(came_from, start, goal)
-print(path)
-ways = generate_path(path)
-print(ways)
-route = regenerate_path(ways)
-print(route)
+def get_route(diagram, start, goal):
+    came_from, cost_so_far, frontier = dijkstra_search(diagram, start, goal)
+    path = reconstruct_path(came_from, start, goal)
+    route = generate_path(path)
+    return route

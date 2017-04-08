@@ -27,11 +27,12 @@ class Move(object):
         GPIO.output(self.run_enable, GPIO.HIGH)
         GPIO.output(self.red_enable, GPIO.HIGH)
         try:
+            time.sleep(0.5)
             while 1:
                 GPIO.wait_for_edge(self.loc_inp, GPIO.BOTH, timeout=5000)
                 inp = GPIO.input(self.loc_inp)
                 if inp == 0:
-                    distance = distance - 1
+                    distance -= 1
                     print(distance)
                     if distance == 0:
                         self.stop()
@@ -48,17 +49,17 @@ class Move(object):
 
     def setDirection(self, dirc):
         if dirc == 'left':
-            GPIO.output(self.cha1, 1)
-            GPIO.output(self.cha2, 0)
-        if dirc == 'right':
             GPIO.output(self.cha1, 0)
-            GPIO.output(self.cha2, 0)
+            GPIO.output(self.cha2, 1)
+        if dirc == 'right':
+            GPIO.output(self.cha1, 1)
+            GPIO.output(self.cha2, 1)
         if dirc == 'up':
             GPIO.output(self.cha1, 1)
-            GPIO.output(self.cha2, 1)
+            GPIO.output(self.cha2, 0)
         if dirc == 'down':
             GPIO.output(self.cha1, 0)
-            GPIO.output(self.cha2, 1)
+            GPIO.output(self.cha2, 0)
 
     def run(self, dirc, distance):
         self.setDirection(dirc)
@@ -75,11 +76,6 @@ class Move(object):
         GPIO.cleanup()
         print("c over")
 
-if __name__ == '__main__':
-    go = Move()
-    try:
-        go.run('up', 3)
-        go.setDirection('up')
-        go.moveByTime()
-    except KeyboardInterrupt:
-        go.stop()
+
+def init(go):
+    go.run('right', 1)
