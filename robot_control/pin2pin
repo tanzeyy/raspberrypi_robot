@@ -1,0 +1,6 @@
+00 right
+01 down
+11 up
+10 left
+
+** red-enable run-enable loc-inp
