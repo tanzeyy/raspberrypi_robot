@@ -2,7 +2,7 @@ import tensorflow as tf
 import sys
 
 
-def LabelImages(images):
+def LabelImages(images, shelf):
 
     results = {}
     # Loads label file, strips off carriage return
@@ -20,8 +20,8 @@ def LabelImages(images):
         for image in images:
             print(str(image))
             softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
-            image_data = tf.gfile.FastGFile(str("images_classify/images/" +
-                                            image), 'rb').read()
+            image_data = tf.gfile.FastGFile(str("images_classify/images/%s/" +
+                                            image) % shelf, 'rb').read()
             predictions = sess.run(softmax_tensor,
                                    {'DecodeJpeg/contents:0': image_data})
             top_k = predictions[0].argsort()[-len(predictions[0]):][::-1]
