@@ -37,13 +37,12 @@ class Move(object):
                     if distance == 0:
                         self.stop()
                         break
-                    time.sleep(0.5)
+                    time.sleep(1)
         except:
             self.stop()
 
     def moveByTime(self, t=2):
         GPIO.output(self.run_enable, 0)
-        GPIO.output(self.run_enable, 1)
         time.sleep(t)
         self.stop()
 
@@ -62,8 +61,11 @@ class Move(object):
             GPIO.output(self.cha2, 0)
 
     def run(self, dirc, distance):
-        self.setDirection(dirc)
-        self.move(distance)
+        try:
+            self.setDirection(dirc)
+            self.move(distance)
+        except KeyboardInterrupt:
+            self.stop()
 
     def stop(self):
         print("stop!")
