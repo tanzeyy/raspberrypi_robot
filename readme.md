@@ -20,7 +20,7 @@
     ```
     python test.py [<video source>]
     ```
-- 拍照之后将图像分割成上下两部分分别识别
+- 拍照之后将图像分割成六个部分分别识别
 - 识别结果存放在
     ```
     images_classify/results/results.json
