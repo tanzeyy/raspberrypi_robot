@@ -1,7 +1,7 @@
 import os
 import json
 
-# Import local functions
+# Import local modules
 import images_classify.label_images as li
 import images_classify.capture as cap
 
@@ -21,7 +21,6 @@ def ImageClassify(shelf):
         f.write(results)
 
 
-def run(shelf, side):
+def run(shelf):
     cap.Capture(shelf, side)
     ImageClassify(shelf)
-run("A", "right")
