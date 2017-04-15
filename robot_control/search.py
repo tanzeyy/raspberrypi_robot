@@ -90,7 +90,6 @@ def reconstruct_path(came_from, start, goal):
 
 
 def generate_path(path):
-    route = {}
     ways = []
     for x in range(len(path) - 1):
         (x1, y1) = path[x]

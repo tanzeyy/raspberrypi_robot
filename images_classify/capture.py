@@ -31,8 +31,8 @@ def Capture(shelf, side, cap_src=1):
         img = frame[area[1][0]:area[1][1], area[0][0]:area[0][1]]
         if side == "left":
             block = str(int(block) + 6)
-        cv2.imwrite(("images_classify/images/%s/%s%s" + ".jpg") %
-                    (shelf, shelf, block), img)
+        cv2.imwrite(("images_classify/images/%s/%s/%s%s" + ".jpg") %
+                    (shelf, side, shelf, block), img)
     cv2.imwrite('images_classify/images/test.jpg', frame)
 
     cap.release()

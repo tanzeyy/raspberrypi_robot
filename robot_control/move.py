@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time
 
 
-class Move(object):
+class Mov(object):
     def __init__(self, dirc='up', distance=0, cha1=29, cha2=31,
                  red_enable=33, run_enable=35, loc_inp=37):
         self.dirc = dirc
@@ -41,10 +41,15 @@ class Move(object):
         except:
             self.stop()
 
-    def moveByTime(self, t=2):
-        GPIO.output(self.run_enable, 0)
-        time.sleep(t)
-        self.stop()
+    def moveByTime(self, dirc, t):
+        if dirc == 'no':
+            self.stop()
+        else:
+            self.setDirection(dirc)
+            GPIO.output(self.red_enable, 1)
+            GPIO.output(self.run_enable, 1)
+            time.sleep(t)
+            self.stop()
 
     def setDirection(self, dirc):
         if dirc == 'left':
@@ -77,6 +82,33 @@ class Move(object):
         print("clean")
         GPIO.cleanup()
         print("c over")
+
+
+class Move(Mov):
+    def __init__(self, speed_ctrl=40):
+        self.speed_ctrl = speed_ctrl
+
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(self.speed_ctrl, GPIO.OUT)
+
+    def set_speed(self, speed='fast'):
+        if speed == 'fast':
+            GPIO.output(self.speed_ctrl, 1)
+        if speed == 'slow':
+            GPIO.output(self.speed_ctrl, 0)
+
+    def slow_run(self, dirc, distance):
+        self.set_speed('slow')
+        self.run(dirc, distance)
+
+    def fast_run(self, dirc, distance):
+        self.set_speed('fast')
+        self.run(dirc, distance)
+
+    def move_in_block(self, dirc):
+        self.set_speed('slow')
+        self.setDirection(dirc)
+        self.moveByTime(2)
 
 
 def init(go):

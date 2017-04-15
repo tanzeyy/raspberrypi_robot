@@ -2,7 +2,7 @@ from move import *
 import search
 
 start = (1, 3)
-go = Move()
+go = Mov()
 init(go)
 while 1:
     for goal in [(3, 3), (2, 9), (10, 8), (3, 3)]:
