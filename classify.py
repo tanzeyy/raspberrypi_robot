@@ -1,26 +1,30 @@
 import os
-import json
+import pickle
 
 # Import local modules
 import images_classify.label_images as li
 import images_classify.capture as cap
 
 
-def ImageClassify(shelf):
+def ImageClassify(shelf, side):
 
     # Get images directory
-    images = os.listdir("images_classify/images/%s" % shelf)
+    images = os.listdir("images_classify/images/%s/%s" % (shelf, side))
 
     # Get and write results to files
-    results = json.dumps(li.LabelImages(images, shelf))
+    results = li.LabelImages(shelf, side)
+    print results
 
     if not os.path.exists("images_classify/results"):
         os.makedirs("images_classify/results")
 
-    with open(("images_classify/results/%s" + ".json") % shelf, 'w') as f:
-        f.write(results)
+    with open(("images_classify/results/%s" + ".txt") % shelf, 'w') as f:
+        f.write(pickle.dumps(results))
 
 
-def run(shelf):
+def run(shelf, side):
     cap.Capture(shelf, side)
-    ImageClassify(shelf)
+    ImageClassify(shelf, side)
+
+
+# run('A', 'right')
