@@ -1,8 +1,11 @@
 import tensorflow as tf
 import sys
+import os
 
 
-def LabelImages(images, shelf):
+def LabelImages(shelf, side):
+
+    images = os.listdir("images_classify/images/%s/%s" % (shelf, side))
 
     results = {}
     # Loads label file, strips off carriage return
@@ -20,8 +23,8 @@ def LabelImages(images, shelf):
         for image in images:
             print(str(image))
             softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
-            image_data = tf.gfile.FastGFile(str("images_classify/images/%s/" +
-                                            image) % shelf, 'rb').read()
+            image_data = tf.gfile.FastGFile(str("images_classify/images/%s/%s/" +
+                                            image) % (shelf, side), 'rb').read()
             predictions = sess.run(softmax_tensor,
                                    {'DecodeJpeg/contents:0': image_data})
             top_k = predictions[0].argsort()[-len(predictions[0]):][::-1]
@@ -29,7 +32,7 @@ def LabelImages(images, shelf):
             for node_id in top_k:
                 human_string = label_lines[node_id]
                 score = predictions[0][node_id]
-                if score > 0.9:
+                if score > 0.5:
                     results[str(image).strip('.jpg')] = str(human_string)
 
                 print('%s (score = %.5f)' % (human_string, score))

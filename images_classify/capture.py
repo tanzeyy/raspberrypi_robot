@@ -1,10 +1,12 @@
 import cv2
 import numpy as np
 import os
+import time
 
-upper = [0, 360]
-lower = [360, 720]
-width = 416
+# Set the block pixel size
+upper = [180, 648]
+lower = [648, 1080]
+width = 640
 w = [0, width]
 blocks = {
     "6": (w, lower), "5": (w, upper),
@@ -18,14 +20,15 @@ blocks = {
 def Capture(shelf, side, cap_src=1):
 
     cap = cv2.VideoCapture(cap_src)
-    cap.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 1280)
-    cap.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 720)
-    if not os.path.exists('images_classify/images/%s' % shelf):
-        os.makedirs('images_classify/images/%s' % shelf)
+    cap.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 1920)
+    cap.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 1080)
 
-    for i in range(20):
+    if not os.path.exists('images_classify/images/%s/%s' % (shelf, side)):
+        os.makedirs('images_classify/images/%s/%s' % (shelf, side))
+
+    for i in range(15):
         cap.read()
-
+    # time.sleep(1.5)
     ret, frame = cap.read()
     for block, area in blocks.items():
         img = frame[area[1][0]:area[1][1], area[0][0]:area[0][1]]
@@ -33,9 +36,8 @@ def Capture(shelf, side, cap_src=1):
             block = str(int(block) + 6)
         cv2.imwrite(("images_classify/images/%s/%s/%s%s" + ".jpg") %
                     (shelf, side, shelf, block), img)
-    cv2.imwrite('images_classify/images/test.jpg', frame)
+    cv2.imwrite('images_classify/images/main.jpg', frame)
 
     cap.release()
-    cv2.destroyAllWindows()
 
-# Capture("A", "right", 1)
+
