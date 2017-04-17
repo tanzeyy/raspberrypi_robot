@@ -1,8 +1,9 @@
 import serial
-import json
+import pickle
 
+# Open port to send message to Arduino and PC
 arm = serial.Serial("/dev/ttyACM0", 9600)
-pc = serial.Serial("/dev/ttyAMA0", 9600)
+pc = serial.Serial("/dev/ttyUSB0", 9600)
 
 
 def send2arm(msg):
@@ -14,28 +15,19 @@ def send2pc(msg):
 
 
 def getResults():
-    L = 0
-    while True:
-        fh = open("results.json", 'r+')
-        fh.seek(L)
-        x = pc.read(1)
-        if x != ' ':
-            fh.write(x)
-            L += 1
-        fh.close()
-
-
-def get():
     results = ""
+
+    # Recive results by character
     while True:
         x = pc.read(1)
-        if x != ' ':
+
+        # After recived '$' end character, stop reciving
+        if x != '$':
             results += x
-        if x == '$':
+        else:
             break
-    print results
-    print type(results)
-    results = results[:-1]
-    res = json.loads(results, encoding='unicode')
-    print res
-    print type(res)
+    print(results)
+    results = pickle.loads(results)
+    # print res
+    # print type(res)
+    return results

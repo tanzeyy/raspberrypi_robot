@@ -99,4 +99,4 @@ def shelfSide(shelf, side):
     shelfs = [A, B, C, D]
     for slf in shelfs:
         if slf.getName() == shelf:
-            return slf
+            return slf.getSide(side)

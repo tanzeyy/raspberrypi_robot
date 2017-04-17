@@ -11,9 +11,9 @@ side = 'right'
 go = Mov()
 
 grab_time = 0.8
-place_time = 1.5
-rotate_time = 1.5
-action_time = 1.5
+place_time = 3
+rotate_time = 3
+action_time = 3
 init(go)
 
 
@@ -30,7 +30,8 @@ def runInGrid(route):
         go.moveByTime(dirc, 0.5)
 
 
-def intoGrid(waze, grid):
+def intoGrid(grid):
+    global waze
     (x1, y1) = waze
     (x2, y2) = grid
     if x1 < x2:
@@ -88,6 +89,7 @@ def place():
 
 def restoreArm():
     send2arm('E')
+    time.sleep(3)
 
 
 def armAction(action):
@@ -143,9 +145,12 @@ def oneGrabPlace(block, obj_name):
     armAction(pre_act)
     grab(objPaw)
     armAction(end_act)
+    armAction('F')
     run2goal(objGoal)
     rotate2cart(objCart)
-    route = intoGrid(waze, grid)
+    print "rotate to cart"
+    route = intoGrid(objGrid)
+    print "move into grid"
     runInGrid(route)
     place()
     runInGrid(exitGrid(route))
@@ -153,13 +158,17 @@ def oneGrabPlace(block, obj_name):
 
 
 def halfShelf(shelf, side):
-    if side == 'right':
-        run2goal(right[shelf])
-    else:
-        run2goal(left[shelf])
-    results = classify(shelf)
-    for position, obj in results:
-        oneGrabPlace(shelf, position, obj)
+    shelfGoal = shelfSide(shelf, side)
+    run2goal(shelfGoal)
+    rotate2shelf(shelf)
+    print("rotate over")
+    restoreArm()
+    send2pc('capture')
+    send2pc(shelf)
+    send2pc(side)
+    results = getResults()
+    for block, obj_name in results.items():
+        oneGrabPlace(block, obj_name)
 
 
 def oneShelf(shelf):
@@ -170,3 +179,5 @@ def oneShelf(shelf):
 def run():
     for shelf in ['A', 'B', 'C', 'D']:
         oneShelf(shelf)
+
+run()
