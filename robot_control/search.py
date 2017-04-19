@@ -100,14 +100,14 @@ def generate_path(path):
             if y1 > y2:
                 dirc = 'down'
                 ways.append((dirc, 1))
-            if y1 < y2:
+            elif y1 < y2:
                 dirc = 'up'
                 ways.append((dirc, 1))
-        if y1 == y2:
+        elif y1 == y2:
             if x1 > x2:
                 dirc = 'left'
                 ways.append((dirc, 1))
-            if x1 < x2:
+            elif x1 < x2:
                 dirc = 'right'
                 ways.append((dirc, 1))
     return ways
