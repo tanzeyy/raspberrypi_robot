@@ -6,8 +6,8 @@ import os
 import time
 
 # Set the block pixel size
-upper = [360, 720]
-lower = [720, 1080]
+upper = [360, 760]
+lower = [680, 1080]
 width = 640
 w = [0, width]
 blocks = {
@@ -30,7 +30,7 @@ def Capture(shelf, side, cap_src=1):
 
     for i in range(15):
         cap.read()
-    # time.sleep(1.5)
+    time.sleep(1.5)
     ret, frame = cap.read()
     for block, area in blocks.items():
         img = frame[area[1][0]:area[1][1], area[0][0]:area[0][1]]

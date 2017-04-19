@@ -32,7 +32,7 @@ def LabelImages(shelf, side):
             for node_id in top_k:
                 human_string = label_lines[node_id]
                 score = predictions[0][node_id]
-                if score > 0.5:
+                if score > 0.75:
                     results[str(image).strip('.jpg')] = str(human_string)
 
                 print('%s (score = %.5f)' % (human_string, score))
