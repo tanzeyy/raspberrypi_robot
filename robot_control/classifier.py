@@ -22,10 +22,10 @@ class Classifier(object):
         # Wait for results
         while True:
             # Recive results by character
-            ch = pc_port.read(1)
+            ch = self.pc_port.read(1)
             # After recived '$' end character, stop reciving
-            if x != '$':
-                results += x
+            if ch != '$':
+                results += ch
             else:
                 break
         results = pickle.loads(results)

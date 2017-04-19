@@ -32,7 +32,7 @@ def get_coordinates(block):
     return coordinates[block]
 
 
-# Information of objects
+# Objects class
 class Objs(object):
     def __init__(self, name, paw, goal, cart, grid):
         self.name = name
@@ -56,9 +56,9 @@ class Objs(object):
     def get_grid(self):
         return self.grid
 
-
-yellow_cube = Objs('yellow cube', '1', (5, 3), '1', (5, 3))
-yakult = Objs('yakult', '2', (8, 5), '2', (7.5, 4.5))
+# Instances of the objects
+yellow_cube = Objs('yellow cube', 'b', (5, 3), '1', (5, 3))
+yakult = Objs('yakult', 'c', (8, 5), '2', (7.5, 4.5))
 jdb = Objs('jdb', '3', (8, 5), '3', (7.5, 5))
 tennis_ball = Objs('tennis ball', '4', (8, 5), '4', (7.5, 5.5))
 mimi = Objs('mimi', '5', (6, 8), '5', (6.5, 7.5))
@@ -69,6 +69,7 @@ pencil = Objs('pencil', '9', (3, 6), '9', (3.5, 6))
 pp_ball = Objs('pp ball', 'a', (3, 6), '10', (3.5, 5.5))
 
 
+# Get the object with the specified name
 def get_obj(name):
     objects = [yellow_cube, yakult, jdb, tennis_ball, mimi,
                wired_ball, shuttercock, mouse, pencil, pp_ball]
@@ -94,6 +95,8 @@ class Shelf(object):
     def get_name(self):
         return self.name
 
+
+# Instances of the shelves
 A = Shelf('A', (5, 2), (2, 2))
 B = Shelf('B', (9, 5), (9, 2))
 C = Shelf('C', (6, 9), (9, 9))
@@ -102,6 +105,6 @@ D = Shelf('D', (2, 6), (2, 9))
 
 def get_shelf_side(shelf, side):
     shelfs = [A, B, C, D]
-    for slf in shelfs:
+    for slf in shelves:
         if slf.get_name() == shelf:
             return slf.get_side(side)
