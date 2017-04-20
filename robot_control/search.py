@@ -91,44 +91,49 @@ def reconstruct_path(came_from, start, goal):
     return path
 
 
-def generate_path(path):
-    ways = []
-    for x in range(len(path) - 1):
-        (x1, y1) = path[x]
-        (x2, y2) = path[x+1]
+def generate_middle_point(path):
+    current = path[0]
+    route = []
+
+    # Add the start point
+    route.append(current)
+
+    for i in range(len(path)-1):
+        (x, y) = path[i]
+        if x != current[0] and y != current[1]:
+            route.append(path[i-1])
+            current = path[i]
+
+    # Add the end point
+    route.append(path[len(path)-1])
+
+    return route
+
+
+def generate_route(path):
+    route = []
+    for i in range(len(path) - 1):
+        (x1, y1) = path[i]
+        (x2, y2) = path[i+1]
         if x1 == x2:
             if y1 > y2:
                 dirc = 'down'
-                ways.append((dirc, 1))
+                route.append((dirc, y1 - y2))
             elif y1 < y2:
                 dirc = 'up'
-                ways.append((dirc, 1))
+                route.append((dirc, y2 - y1))
         elif y1 == y2:
             if x1 > x2:
                 dirc = 'left'
-                ways.append((dirc, 1))
+                route.append((dirc, x1 - x2))
             elif x1 < x2:
                 dirc = 'right'
-                ways.append((dirc, 1))
-    return ways
-
-
-def regenerate_path(path):
-    route = []
-    ways = {"down": 1,
-            "up": 1,
-            "left": 1,
-            "right": 1}
-    for x in range(len(path) - 1):
-        ways[path[x][0]] += 1
-
-    for d, s in ways.items():
-        if s != 1:
-            route.append((d, s))
+                route.append((dirc, x2 - x1))
     return route
 
 
 def get_route(start, goal):
+    # Construct the map
     diagram = GridWithWeights(12, 12)
     diagram.walls = [(4, 4), (4, 5), (4, 6), (4, 7),
                      (5, 4), (5, 5), (5, 6), (5, 7),
@@ -137,5 +142,6 @@ def get_route(start, goal):
 
     came_from, cost_so_far, frontier = search(diagram, start, goal)
     path = reconstruct_path(came_from, start, goal)
-    route = generate_path(path)
+    middle_points = generate_middle_point(path)
+    route = generate_route(middle_points)
     return route
