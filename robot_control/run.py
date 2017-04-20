@@ -1,4 +1,16 @@
+#!/usr/bin/env python
+
+# Local modules
 from robot import Robot
+
+# Python 2/3 compatibility
+from __future__ import print_function
+import sys
+PY3 = sys.version_info[0] == 3
+
+if PY3:
+    from functools import reduce
+
 
 robot = Robot()
 
@@ -18,10 +30,10 @@ def grab_and_place(obj_name, block):
     robot.run_to_goal(block_goal)
     robot.grab_obj(obj_name, block)
     robot.run_to_goal(obj_goal)
-    robot.run_to_grid(obj_grid)
+    robot.run_in_grid(obj_grid)
     robot.place_obj(obj_name)
-    time.sleep(0.5)
-    robot.run_to_grid(obj_grid, 'exit')
+    time.sleep(0.8)
+    robot.run_in_grid(obj_grid, 'exit')
 
 
 def half_shelf(shelf, side):

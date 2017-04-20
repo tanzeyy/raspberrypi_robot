@@ -3,6 +3,14 @@
 import RPi.GPIO as GPIO
 import time
 
+# Python 2/3 compatibility
+from __future__ import print_function
+import sys
+PY3 = sys.version_info[0] == 3
+
+if PY3:
+    from functools import reduce
+
 
 class Move(object):
     def __init__(self):
@@ -27,7 +35,7 @@ class Move(object):
         GPIO.setup(self.loc_inp, GPIO.IN)
         GPIO.setup(self.speed_ctrl, GPIO.OUT)
 
-    def move_by_block(self, distance):
+    def move_by_grid(self, distance):
         GPIO.output(self.run_enable, 1)
         GPIO.output(self.red_enable, 1)
         time.sleep(0.5)
@@ -38,7 +46,7 @@ class Move(object):
                 inp = GPIO.input(self.loc_inp)
                 if inp == 0:
                     distance -= 1
-                    print(distance)
+                    print("Distance: ", distance)
                     if distance == 0:
                         self.stop()
                         break

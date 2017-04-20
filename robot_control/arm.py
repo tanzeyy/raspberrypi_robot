@@ -3,6 +3,14 @@
 import serial
 import time
 
+# Python 2/3 compatibility
+from __future__ import print_function
+import sys
+PY3 = sys.version_info[0] == 3
+
+if PY3:
+    from functools import reduce
+
 
 class Arm(object):
     def __init__(self):
