@@ -14,5 +14,3 @@ def sendResults(shelf):
     fh.close()
     # Send the end character
     port.write('$')
-
-# sendResults('A')
