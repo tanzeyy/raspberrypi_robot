@@ -7,6 +7,14 @@ from move import Move
 from search import get_route
 from dicts import *
 
+# Python 2/3 compatibility
+from __future__ import print_function
+import sys
+PY3 = sys.version_info[0] == 3
+
+if PY3:
+    from functools import reduce
+
 
 class Robot(Arm, Classifier, Move):
     def __init__(self):
@@ -18,7 +26,7 @@ class Robot(Arm, Classifier, Move):
 
         # Run to the start location
         self.set_direction('right')
-        self.move_by_block(1)
+        self.move_by_grid(1)
         self.waze = (1, 3)
         print("Initialize over")
 
@@ -30,26 +38,30 @@ class Robot(Arm, Classifier, Move):
         # Get the block: obj pair of what is detected
         return self.get_classify_results(shelf, side)
 
-    def move(self, dirc, arg, method='block', speed='fast'):
+    def move(self, dirc, arg, method='grid', speed='fast'):
         self.set_direction(dirc)
         self.set_speed(speed)
 
-        if method == 'block':
-            self.move_by_block(arg)
+        if method == 'grid':
+            self.move_by_grid(arg)
         elif method == 'time':
             self.move_by_time(arg)
         else:
             raise Exception("Move method input error!")
 
-    def run_to_goal(self, goal, speed):
+    def run_to_goal(self, goal):
         # Get the route of current location to the goal
         route = get_route(self.waze, goal)
 
         for way in route:
-            self.move(way[0], way[1], 'block', speed)
-        self.waze = goal
+            self.move(way[0], way[1] - 1, 'grid', 'fast')
+            # Decelerate in the last grid
+            self.move(way[0], 1, 'grid', 'slow')
 
-    def run_to_grid(self, grid, method='in'):
+        self.waze = goal
+        print("Current waze: ", self.waze)
+
+    def run_in_grid(self, grid, method='in'):
         # Determine the route of current location to the place-location
         (x1, y1) = self.waze
         (x2, y2) = grid
@@ -88,7 +100,7 @@ class Robot(Arm, Classifier, Move):
         if method == 'in':
             route = route
         elif method == 'exit':
-            # Convert the incoming path to exit path 
+            # Convert the incoming path to exit path
             route = map(lambda dirc: trans[dirc], route)
         else:
             raise Exception("Grid method input error!")
