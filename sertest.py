@@ -15,5 +15,3 @@ while True:
         side = port.read(5)
         classify.run(shelf, side)
         sr.sendResults(shelf)
-        port.flushOutput()
-        port.close()
