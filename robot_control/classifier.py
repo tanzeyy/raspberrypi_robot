@@ -15,7 +15,7 @@ class Classifier(object):
         results = ""
 
         # Send message to pc
-        self.pc_port.write('capture')
+        self.pc_port.write('#')
         self.pc_port.write(shelf)
         self.pc_port.write(side)
 

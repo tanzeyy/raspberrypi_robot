@@ -66,11 +66,9 @@ class Arm(object):
 
     def wait_for_act_end_signal(self):
         print("Waiting for end signal...")
-        self.arm_port.flushInput()
         while True:
             sig = self.arm_port.read(2)
             if sig == 'ok':
                 break
-        self.arm_port.close()
         print(sig)
         print("End signal recived! Continue running!")
