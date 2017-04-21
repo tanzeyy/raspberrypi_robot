@@ -35,6 +35,7 @@ def Capture(shelf, side, cap_src=0):
         frameVar = cv2.Laplacian(image, cv2.CV_64F).var()
         if frameVar > var:
             proc_img = frame
+            var = frameVar
 
     for block, area in blocks.items():
         img = proc_img[area[1][0]:area[1][1], area[0][0]:area[0][1]]
