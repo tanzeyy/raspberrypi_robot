@@ -2,8 +2,9 @@ import os
 import pickle
 
 # Import local modules
-import images_classify.label_images as li
-import images_classify.capture as cap
+from images_classify.label_images import LabelImages
+from images_classify.capture import Capture
+from images_classify.yellow_color import is_yellow
 
 
 def ImageClassify(shelf, side):
@@ -12,7 +13,10 @@ def ImageClassify(shelf, side):
     images = os.listdir("images_classify/images/%s/%s" % (shelf, side))
 
     # Get and write results to files
-    results = li.LabelImages(shelf, side)
+    if shelf == 'A':
+        results = is_yellow()
+    else:
+        results = LabelImages(shelf, side)
     print results
 
     if not os.path.exists("images_classify/results"):
@@ -23,7 +27,7 @@ def ImageClassify(shelf, side):
 
 
 def run(shelf, side):
-    cap.Capture(shelf, side)
+    Capture(shelf, side)
     ImageClassify(shelf, side)
 
 

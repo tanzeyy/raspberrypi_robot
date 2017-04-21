@@ -177,6 +177,6 @@ def Capture(cap_src):
         frameVar = cv2.Laplacian(image, cv2.CV_64F).var()
         if frameVar > var:
             proc_img = frame
-            cv2.imwrite("proc.img", proc_img)
+    cv2.imwrite("proc.jpg", proc_img)
 
     cap.release()
