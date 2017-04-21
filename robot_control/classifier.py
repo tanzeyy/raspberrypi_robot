@@ -11,6 +11,11 @@ class Classifier(object):
     def __del__(self):
         self.pc_port.close()
 
+    def capture(self, shelf, side):
+        self.pc_port.write('#')
+        self.pc_port.write(shelf)
+        self.pc_port.write(side)
+
     def get_classify_results(self, shelf, side):
         results = ""
 

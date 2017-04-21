@@ -32,7 +32,10 @@ class Robot(Arm, Classifier, Move):
 
     def classify(self, shelf, side):
         # Get the block: obj pair of what is detected
-        return self.get_classify_results(shelf, side)
+        if shelf == 'A' and side == 'right':
+            self.capture(shelf, side)
+        else:
+            return self.get_classify_results(shelf, side)
 
     def move(self, dirc, arg, method='grid', speed='fast'):
         self.set_direction(dirc)
@@ -183,8 +186,22 @@ def half_shelf(shelf, side):
         grab_and_place(obj_name, block)
 
 
+def whole_shelf(shelf):
+    for side in ['right', 'left']:
+        shelf_goal = get_shelf_side(shelf, side)
+        robot.run_to_goal(shelf_goal)
+
+        robot.rotate_to_shelf(shelf)
+        robot.capture()
+        results = robot.classify(shelf, side)
+
+    for block, obj_name in results.items():
+        grab_and_place(obj_name, block)
+
+
 def run():
-    for shelf in ['A', 'B', 'C', 'D']:
+    whole_shelf('A')
+    for shelf in ['B', 'C', 'D']:
         for side in ['right', 'left']:
             half_shelf(shelf, side)
 
