@@ -162,3 +162,21 @@ def get_route(start, goal):
 
 
 print(get_route((8, 5), (4, 1)))
+
+
+def Capture(cap_src):
+    cap = cv2.VideoCapture(cap_src)
+    cap.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 1920)
+    cap.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 1080)
+
+    var = 0
+
+    for i in range(30):
+        ret, frame = cap.read()
+        cv2.imwrite("%s.jpg" % i, frame)
+        frameVar = cv2.Laplacian(image, cv2.CV_64F).var()
+        if frameVar > var:
+            proc_img = frame
+            cv2.imwrite("proc.img", proc_img)
+
+    cap.release()

@@ -28,18 +28,20 @@ def Capture(shelf, side, cap_src=0):
     if not os.path.exists('images_classify/images/%s/%s' % (shelf, side)):
         os.makedirs('images_classify/images/%s/%s' % (shelf, side))
 
-    for i in range(20):
-        cap.read()
-    # time.sleep(1)
-    ret, frame = cap.read()
+    var = 0
+
+    for i in range(30):
+        ret, frame = cap.read()
+        frameVar = cv2.Laplacian(image, cv2.CV_64F).var()
+        if frameVar > var:
+            proc_img = frame
+
     for block, area in blocks.items():
-        img = frame[area[1][0]:area[1][1], area[0][0]:area[0][1]]
+        img = proc_img[area[1][0]:area[1][1], area[0][0]:area[0][1]]
         if side == "left":
             block = str(int(block) + 6)
         cv2.imwrite(("images_classify/images/%s/%s/%s%s" + ".jpg") %
                     (shelf, side, shelf, block), img)
-    cv2.imwrite('images_classify/images/%s/main.jpg' % shelf, frame)
+    cv2.imwrite('images_classify/images/%s/main.jpg' % shelf, proc_img)
 
     cap.release()
-
-
