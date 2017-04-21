@@ -32,7 +32,7 @@ def Capture(shelf, side, cap_src=0):
 
     for i in range(30):
         ret, frame = cap.read()
-        frameVar = cv2.Laplacian(image, cv2.CV_64F).var()
+        frameVar = cv2.Laplacian(frame, cv2.CV_64F).var()
         if frameVar > var:
             proc_img = frame
             var = frameVar
