@@ -27,8 +27,15 @@ def ImageClassify(shelf, side):
 
 
 def run(shelf, side):
-    Capture(shelf, side)
-    ImageClassify(shelf, side)
+    if shelf == 'A':
+        if side == 'right':
+            Capture(shelf, side)
+        else:
+            Capture(shelf, side)
+            ImageClassify(shelf, side)
+    else:
+        Capture(shelf, side)
+        ImageClassify(shelf, side)
 
 
 # run('A', 'right')

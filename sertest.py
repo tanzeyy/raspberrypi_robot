@@ -14,4 +14,7 @@ while True:
         shelf = port.read(1)
         side = port.read(5)
         classify.run(shelf, side)
-        sr.sendResults(shelf)
+        if shelf == 'A' and side == 'right':
+            pass
+        else:
+            sr.sendResults(shelf)
