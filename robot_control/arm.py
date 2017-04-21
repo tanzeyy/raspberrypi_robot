@@ -1,15 +1,10 @@
 #!/usr/bin/env python
 
-import serial
-import time
-
 # Python 2/3 compatibility
 from __future__ import print_function
-import sys
-PY3 = sys.version_info[0] == 3
 
-if PY3:
-    from functools import reduce
+import serial
+import time
 
 
 class Arm(object):
@@ -23,9 +18,11 @@ class Arm(object):
     def grab(self, obj):
         self.arm_port.write(obj)
         self.wait_for_act_end_signal()
+        time.sleep(1)
 
     def place(self):
         self.arm_port.write('P')
+        self.wait_for_act_end_signal()
         self.arm_port.write('O')
         self.wait_for_act_end_signal()
 

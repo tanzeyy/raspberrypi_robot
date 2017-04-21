@@ -98,11 +98,11 @@ def generate_middle_point(path):
     # Add the start point
     route.append(current)
 
-    for i in range(len(path)-1):
+    for i in range(len(path)):
         (x, y) = path[i]
         if x != current[0] and y != current[1]:
             route.append(path[i-1])
-            current = path[i]
+            current = path[i-1]
 
     # Add the end point
     route.append(path[len(path)-1])
@@ -129,6 +129,19 @@ def generate_route(path):
             elif x1 < x2:
                 dirc = 'right'
                 route.append((dirc, x2 - x1))
+        else:
+            if x1 > x2:
+                dirc = 'left'
+                route.append((dirc, x1 - x2))
+            elif x1 < x2:
+                dirc = 'right'
+                route.append((dirc, x2 - x1))
+            if y1 > y2:
+                dirc = 'down'
+                route.append((dirc, y1 - y2))
+            elif y1 < y2:
+                dirc = 'up'
+                route.append((dirc, y2 - y1))
     return route
 
 
@@ -143,5 +156,6 @@ def get_route(start, goal):
     came_from, cost_so_far, frontier = search(diagram, start, goal)
     path = reconstruct_path(came_from, start, goal)
     middle_points = generate_middle_point(path)
+    print(middle_points)
     route = generate_route(middle_points)
     return route

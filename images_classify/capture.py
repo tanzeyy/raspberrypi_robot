@@ -19,7 +19,7 @@ blocks = {
 }
 
 
-def Capture(shelf, side, cap_src=1):
+def Capture(shelf, side, cap_src=0):
 
     cap = cv2.VideoCapture(cap_src)
     cap.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 1920)
@@ -28,9 +28,9 @@ def Capture(shelf, side, cap_src=1):
     if not os.path.exists('images_classify/images/%s/%s' % (shelf, side)):
         os.makedirs('images_classify/images/%s/%s' % (shelf, side))
 
-    for i in range(15):
+    for i in range(20):
         cap.read()
-    time.sleep(1.5)
+    # time.sleep(1)
     ret, frame = cap.read()
     for block, area in blocks.items():
         img = frame[area[1][0]:area[1][1], area[0][0]:area[0][1]]

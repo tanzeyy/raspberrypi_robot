@@ -104,7 +104,7 @@ D = Shelf('D', (2, 6), (2, 9))
 
 
 def get_shelf_side(shelf, side):
-    shelfs = [A, B, C, D]
+    shelves = [A, B, C, D]
     for slf in shelves:
         if slf.get_name() == shelf:
             return slf.get_side(side)

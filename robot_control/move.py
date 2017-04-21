@@ -1,15 +1,11 @@
 #!/usr/bin/env python
 
-import RPi.GPIO as GPIO
-import time
 
 # Python 2/3 compatibility
 from __future__ import print_function
-import sys
-PY3 = sys.version_info[0] == 3
 
-if PY3:
-    from functools import reduce
+import RPi.GPIO as GPIO
+import time
 
 
 class Move(object):
@@ -50,7 +46,7 @@ class Move(object):
                     if distance == 0:
                         self.stop()
                         break
-                    time.sleep(1)
+                    time.sleep(0.4)
             except KeyboardInterrupt:
                 self.stop()
             except:
@@ -58,7 +54,7 @@ class Move(object):
 
     def move_by_time(self, t):
         GPIO.output(self.run_enable, 1)
-        GPIO.output(self.red_enable, 0)
+        GPIO.output(self.red_enable, 1)
         try:
             time.sleep(t)
             self.stop()
