@@ -156,6 +156,5 @@ def get_route(start, goal):
     came_from, cost_so_far, frontier = search(diagram, start, goal)
     path = reconstruct_path(came_from, start, goal)
     middle_points = generate_middle_point(path)
-    print(middle_points)
     route = generate_route(middle_points)
     return route

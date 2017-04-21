@@ -51,7 +51,6 @@ class Robot(Arm, Classifier, Move):
         print(route)
 
         for way in route:
-            print("location: ", self.waze)
             if way[1] > 1:
                 self.move(way[0], way[1] - 1, 'grid', 'fast')
                 # Decelerate in the last grid
@@ -121,6 +120,7 @@ class Robot(Arm, Classifier, Move):
 
         # Actions of grab objects
         print("Start grab...")
+        self.arm_port.flushOutput()
         self.rotate_to_shelf(shelf)
         self.open_paw()
         self.act(pre_act)
@@ -135,6 +135,7 @@ class Robot(Arm, Classifier, Move):
         obj = get_obj(obj_name)
         obj_cart = obj.get_cart()
         print("Start place object...")
+        self.arm_port.flushOutput()
         self.rotate_to_cart(obj_cart)
         self.place()
         self.restore()

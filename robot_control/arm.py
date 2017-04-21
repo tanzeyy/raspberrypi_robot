@@ -18,7 +18,7 @@ class Arm(object):
     def grab(self, obj):
         self.arm_port.write(obj)
         self.wait_for_act_end_signal()
-        time.sleep(1)
+        time.sleep(0.8)
 
     def place(self):
         self.arm_port.write('P')
@@ -49,7 +49,7 @@ class Arm(object):
             self.arm_port.write('l')
         else:
             raise Exception('Shelf input error!')
-        time.sleep(1)
+        time.sleep(0.8)
 
     def rotate_to_cart(self, cart):
         if cart == '1':
@@ -62,13 +62,15 @@ class Arm(object):
             self.arm_port.write('r')
         else:
             raise Exception('Cart number error!')
-        time.sleep(1)
+        time.sleep(0.8)
 
     def wait_for_act_end_signal(self):
         print("Waiting for end signal...")
+        self.arm_port.flushInput()
         while True:
             sig = self.arm_port.read(2)
             if sig == 'ok':
                 break
+        self.arm_port.close()
         print(sig)
         print("End signal recived! Continue running!")
