@@ -57,7 +57,7 @@ class Objs(object):
         return self.grid
 
 # Instances of the objects
-yellow_cube = Objs('yellow cube', 'b', (5, 3), '1', (5, 3))
+yellow_cube = Objs('yellow cube', 'b', (5, 3), '1', (5, 3.5))
 yakult = Objs('yakult', 'c', (8, 5), '2', (7.5, 4.5))
 jdb = Objs('jdb', '3', (8, 5), '3', (7.5, 5))
 tennis_ball = Objs('tennis ball', '4', (8, 5), '4', (7.5, 5.5))
