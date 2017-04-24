@@ -11,18 +11,8 @@ class Classifier(object):
     def __del__(self):
         self.pc_port.close()
 
-    def capture(self, shelf, side):
-        self.pc_port.write('#')
-        self.pc_port.write(shelf)
-        self.pc_port.write(side)
-
-    def get_classify_results(self, shelf, side):
+    def get_classify_results(self):
         results = ""
-
-        # Send message to pc
-        self.pc_port.write('#')
-        self.pc_port.write(shelf)
-        self.pc_port.write(side)
 
         # Wait for results
         while True:
@@ -33,6 +23,19 @@ class Classifier(object):
                 results += ch
             else:
                 break
-        results = pickle.loads(results)
-        print(results)
+
+        return pickle.loads(results)
+
+    def capture(self, shelf, side):
+        self.pc_port.write('#')
+        self.pc_port.write(shelf)
+        self.pc_port.write(side)
+        while True:
+            ch = self.pc_port.read(1)
+            if ch == '!':
+                results = {}
+                break
+            elif ch == '~':
+                results = get_classify_results()
+                break
         return results

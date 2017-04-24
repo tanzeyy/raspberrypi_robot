@@ -3,11 +3,11 @@ import sys
 import os
 
 
-def LabelImages(shelf, side):
-
-    images = os.listdir("images_classify/images/%s/%s" % (shelf, side))
-
+def label_images():
+    images = os.listdir("images_classify/images/BCD")
     results = {}
+    final_results = {}
+
     # Loads label file, strips off carriage return
     label_lines = [line.rstrip() for line in
                    tf.gfile.GFile("images_classify/tf_files/labels.txt")]
@@ -21,20 +21,22 @@ def LabelImages(shelf, side):
     # Open a session to label images
     with tf.Session() as sess:
         for image in images:
-            print(str(image))
             softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
-            image_data = tf.gfile.FastGFile(str("images_classify/images/%s/%s/" +
-                                            image) % (shelf, side), 'rb').read()
+            image_data = tf.gfile.FastGFile(str("images_classify/images/BCD/" +
+                                            image), 'rb').read()
             predictions = sess.run(softmax_tensor,
                                    {'DecodeJpeg/contents:0': image_data})
             top_k = predictions[0].argsort()[-len(predictions[0]):][::-1]
 
-            for node_id in top_k:
-                human_string = label_lines[node_id]
-                score = predictions[0][node_id]
-                if score > 0.45:
-                    results[str(image).strip('.jpg')] = str(human_string)
+            node_id = top_k[0]
+            human_string = label_lines[node_id]
+            score = predictions[0][node_id]
+            print(image.strip('.jpg'), ': %s  %.5f' % (human_string, score))
 
-                print('%s (score = %.5f)' % (human_string, score))
+            if score > results[human_string][1]:
+                results[human_string] = (image.strip('.jpg'), score)
 
-    return results
+    for obj, result in results.items():
+        final_results[result[0]] = obj
+
+    return final_results

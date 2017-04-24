@@ -19,24 +19,26 @@ blocks = {
 }
 
 
-def Capture(shelf, side, cap_src=0):
+def capture_images(shelf, side, cap_src=0):
 
     cap = cv2.VideoCapture(cap_src)
     cap.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 1920)
     cap.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 1080)
 
-    if not os.path.exists('images_classify/images/%s/%s' % (shelf, side)):
-        os.makedirs('images_classify/images/%s/%s' % (shelf, side))
+    if not os.path.exists('images_classify/images/A'):
+        os.makedirs('images_classify/images/A')
+
+    if not os.path.exists('images_classify/images/BCD'):
+        os.makedirs('images_classify/images/BCD')
 
     if shelf == 'A':
-        img_str = (("images_classify/images/%s/%s" % (shelf, shelf)))
-
+        img_str = ("images_classify/images/A/%s" % shelf)
     else:
-        img_str = (("images_classify/images/%s/%s/%s") % (shelf, side, shelf))
+        img_str = ("images_classify/images/BCD/%s" % shelf)
 
+    # Take the frame with highest resolution
     var = 0
-
-    for i in range(30):
+    for i in range(15):
         ret, frame = cap.read()
         frameVar = cv2.Laplacian(frame, cv2.CV_64F).var()
         if frameVar > var:
@@ -48,6 +50,6 @@ def Capture(shelf, side, cap_src=0):
         if side == "left":
             block = str(int(block) + 6)
         cv2.imwrite((img_str + "%s.jpg") % block, img)
-    cv2.imwrite('images_classify/images/%s/main.jpg' % shelf, proc_img)
+    # cv2.imwrite('images_classify/images/%s/main.jpg' % shelf, proc_img)
 
     cap.release()
