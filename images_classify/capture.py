@@ -53,3 +53,11 @@ def capture_images(shelf, side, cap_src=1):
     # cv2.imwrite('images_classify/images/%s/main.jpg' % shelf, proc_img)
 
     cap.release()
+
+if __name__ == '__main__':
+    import sys
+    try:
+        shelf, side, cap_src = sys.argv[1:]
+    except:
+        shelf, side, cap_src = 'A', 'right', 1
+    capture_images(shelf, side)

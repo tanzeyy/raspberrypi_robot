@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import serial
 from classify import image_classify
 from capture import capture_images

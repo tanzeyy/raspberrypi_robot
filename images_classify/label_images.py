@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+
+# Python 2/3 compatibility
 from __future__ import print_function
 
 import tensorflow as tf
@@ -43,6 +46,9 @@ def label_images():
 
     results.pop('yellow cube')
     for obj, result in results.items():
-        final_results[result[0]] = obj
+        final_results[obj] = result[0]
 
     return final_results
+
+if __name__ == '__main__':
+    label_images()

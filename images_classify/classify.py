@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os
 import pickle
 
@@ -12,7 +14,7 @@ def image_classify(shelf):
         results = is_yellow()
     else:
         results = label_images()
-    print results
+    print(results)
 
     with open("results.txt", 'w') as f:
         f.write(pickle.dumps(results))
@@ -20,4 +22,9 @@ def image_classify(shelf):
     return results
 
 if __name__ == '__main__':
-    image_classify("B")
+    import sys
+    try:
+        shelf = sys.argv[1]
+    except:
+        shelf = 'B'
+    image_classify(shelf)
