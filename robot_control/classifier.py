@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import print_function
 
 import serial
 import pickle
@@ -26,16 +27,17 @@ class Classifier(object):
 
         return pickle.loads(results)
 
-    def capture(self, shelf, side):
+    def capture_and_classify(self, shelf, side):
         self.pc_port.write('#')
         self.pc_port.write(shelf)
         self.pc_port.write(side)
         while True:
             ch = self.pc_port.read(1)
+            print("Reciving:", ch)
             if ch == '!':
                 results = {}
                 break
             elif ch == '~':
-                results = get_classify_results()
+                results = self.get_classify_results()
                 break
         return results

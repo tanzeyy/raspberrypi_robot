@@ -16,3 +16,8 @@ def image_classify(shelf):
 
     with open("results.txt", 'w') as f:
         f.write(pickle.dumps(results))
+
+    return results
+
+if __name__ == '__main__':
+    image_classify("B")

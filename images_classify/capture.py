@@ -19,7 +19,7 @@ blocks = {
 }
 
 
-def capture_images(shelf, side, cap_src=0):
+def capture_images(shelf, side, cap_src=1):
 
     cap = cv2.VideoCapture(cap_src)
     cap.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 1920)

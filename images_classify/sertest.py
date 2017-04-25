@@ -1,8 +1,8 @@
 import serial
 from classify import image_classify
-from capture improt capture_images
+from capture import capture_images
 
-port = serial.Serial("/dev/ttyUSB0", 9600, timeout=0.5)
+port = serial.Serial("/dev/ttyUSB0", 9600, timeout=1)
 port.reset_input_buffer()
 
 
@@ -37,3 +37,7 @@ def run():
                 send_results()
             else:
                 port.write('!')
+
+
+if __name__ == '__main__':
+    run()

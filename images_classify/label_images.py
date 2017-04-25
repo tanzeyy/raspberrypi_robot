@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import tensorflow as tf
 import sys
 import os
@@ -11,6 +13,9 @@ def label_images():
     # Loads label file, strips off carriage return
     label_lines = [line.rstrip() for line in
                    tf.gfile.GFile("images_classify/tf_files/labels.txt")]
+
+    for line in label_lines:
+        results[line] = ('no', 0)
 
     # Unpersists graph from file
     with tf.gfile.FastGFile("images_classify/tf_files/graph.pb", 'rb') as f:
@@ -36,6 +41,7 @@ def label_images():
             if score > results[human_string][1]:
                 results[human_string] = (image.strip('.jpg'), score)
 
+    results.pop('yellow cube')
     for obj, result in results.items():
         final_results[result[0]] = obj
 

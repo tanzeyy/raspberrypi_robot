@@ -32,7 +32,7 @@ class Robot(Arm, Classifier, Move):
 
     def classify(self, shelf, side):
         # Get the block: obj pair of what is detected
-        return self.capture(shelf, side)
+        return self.capture_and_classify(shelf, side)
 
     def move(self, dirc, arg, method='grid', speed='fast'):
         self.set_direction(dirc)
