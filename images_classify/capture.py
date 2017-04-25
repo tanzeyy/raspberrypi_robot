@@ -11,11 +11,11 @@ lower = [680, 1080]
 width = 640
 w = [0, width]
 blocks = {
-    "6": (w, lower), "5": (w, upper),
-    "4": ([i+width for i in w], lower),
-    "3": ([i+width for i in w], upper),
-    "2": ([i+width*2 for i in w], lower),
-    "1": ([i+width*2 for i in w], upper),
+    '6': (w, lower), '5': (w, upper),
+    '4': ([i+width for i in w], lower),
+    '3': ([i+width for i in w], upper),
+    '2': ([i+width*2 for i in w], lower),
+    '1': ([i+width*2 for i in w], upper),
 }
 
 
@@ -25,11 +25,11 @@ def capture_images(shelf, side, cap_src=1):
     cap.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 1920)
     cap.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 1080)
 
-    if not os.path.exists('images_classify/images/A'):
-        os.makedirs('images_classify/images/A')
+    if not os.path.exists("images_classify/images/A"):
+        os.makedirs("images_classify/images/A")
 
-    if not os.path.exists('images_classify/images/BCD'):
-        os.makedirs('images_classify/images/BCD')
+    if not os.path.exists("images_classify/images/BCD"):
+        os.makedirs("images_classify/images/BCD")
 
     if shelf == 'A':
         img_str = ("images_classify/images/A/%s" % shelf)
