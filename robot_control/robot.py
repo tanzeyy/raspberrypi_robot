@@ -7,18 +7,20 @@ from __future__ import print_function
 from arm import Arm
 from classifier import Classifier
 from move import Move
+from speaker import Voice
 from search import get_route
 from dicts import *
 import time
 
 
-class Robot(Arm, Classifier, Move):
+class Robot(Arm, Classifier, Move, Voice):
     def __init__(self):
         # Initialize the properties of the meta class
         print("Initializing...")
         Arm.__init__(self)
         Classifier.__init__(self)
         Move.__init__(self)
+        Voice.__init__(self)
 
         # Run to the start location
         self.set_direction('right')
@@ -107,16 +109,16 @@ class Robot(Arm, Classifier, Move):
             self.move(dirc, 1, 'time', 'slow')
 
     def grab_obj(self, obj_name, block):
-        # Get the information of the object
-        obj = get_obj(obj_name)
-        obj_paw = obj.get_paw()
-
         # Get the information of the block
         shelf = block[0:1]
         other_shelf = filter(lambda x: x != shelf, ['A', 'B', 'C', 'D'])[0]
         pos = get_position(block)
         pre_act = pos[0]
         end_act = pos[1]
+
+        # Get the information of the object
+        obj = get_obj(obj_name)
+        obj_paw = obj.get_paw(block)
 
         # Actions of grab objects
         print("Start grab...")
@@ -157,8 +159,10 @@ def grab_and_place(obj_name, block):
     obj_grid = obj.get_grid()
 
     # Actions of grab and place an object
+    robot.speak('grab ' + obj_name)
     robot.run_to_goal(block_goal)
     robot.grab_obj(obj_name, block)
+    robot.speak('place ' + obj_name)
     robot.run_to_goal(obj_goal)
     robot.run_in_grid(obj_grid)
     robot.place_obj(obj_name)
@@ -179,22 +183,9 @@ def half_shelf(shelf, side):
     results = robot.classify(shelf, side)
 
     # Grab and place the objects those are detected
-    for block, obj_name in results.items():
-        grab_and_place(obj_name, block)
-
-
-# Test func
-def whole_shelf(shelf):
-    for side in ['right', 'left']:
-        shelf_goal = get_shelf_side(shelf, side)
-        robot.run_to_goal(shelf_goal)
-
-        robot.rotate_to_shelf(shelf)
-        robot.capture()
-        results = robot.classify(shelf, side)
-
-    for block, obj_name in results.items():
-        grab_and_place(obj_name, block)
+    for obj_name in ['yakult', 'jdb', 'tennis ball', 'mimi',
+                     'wired ball', 'shuttlecock', 'mouse']:
+        grab_and_place(obj_name, results[obj_name])
 
 
 def run():
@@ -203,4 +194,14 @@ def run():
             half_shelf(shelf, side)
 
 
-run()
+if __name__ == '__main__':
+    import sys
+    shelf = None
+    try:
+        shelf = sys.argv[1]
+    except:
+        run()
+
+    if shelf is not None:
+        for side in ['right', 'left']:
+            half_shelf(shelf, side)
