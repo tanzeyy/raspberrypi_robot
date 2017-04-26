@@ -106,7 +106,7 @@ class Robot(Arm, Classifier, Move, Voice):
             raise Exception("Grid method input error!")
 
         for dirc in route:
-            self.move(dirc, 1, 'time', 'slow')
+            self.move(dirc, 1.2, 'time', 'slow')
 
     def grab_obj(self, obj_name, block):
         # Get the information of the block
