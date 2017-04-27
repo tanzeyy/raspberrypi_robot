@@ -32,4 +32,4 @@ def is_yellow():
     for key, value in results.items():
         results[key] = 'yellow cube'
 
-    return {}
+    return results
