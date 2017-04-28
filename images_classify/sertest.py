@@ -28,6 +28,7 @@ def run():
         if rcv == "#":
             shelf = port.read(1)
             side = port.read(5)
+            print(shelf, side)
             capture_images(shelf, side)
             if shelf == 'A' and side == 'left':
                 image_classify(shelf)

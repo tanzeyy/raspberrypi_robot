@@ -104,7 +104,7 @@ class Robot(Arm, Classifier, Move):
             raise Exception("Grid method input error!")
 
         for dirc in route:
-            self.move(dirc, 1.2, 'time', 'slow')
+            self.move(dirc, 1, 'time', 'slow')
 
     def grab_obj(self, obj_name, block):
         # Get the information of the block
@@ -194,12 +194,13 @@ def run():
 
 if __name__ == '__main__':
     import sys
-    shelf = None
+    shelves = None
     try:
-        shelf = sys.argv[1]
+        shelves = sys.argv[1:]
     except:
         run()
 
-    if shelf is not None:
-        for side in ['right', 'left']:
-            half_shelf(shelf, side)
+    if shelves is not None:
+        for shelf in shelves:
+            for side in ['right', 'left']:
+                half_shelf(shelf, side)
