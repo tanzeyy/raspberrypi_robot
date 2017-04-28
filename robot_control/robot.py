@@ -7,20 +7,18 @@ from __future__ import print_function
 from arm import Arm
 from classifier import Classifier
 from move import Move
-from speaker import Voice
 from search import get_route
 from dicts import *
 import time
 
 
-class Robot(Arm, Classifier, Move, Voice):
+class Robot(Arm, Classifier, Move):
     def __init__(self):
         # Initialize the properties of the meta class
         print("Initializing...")
         Arm.__init__(self)
         Classifier.__init__(self)
         Move.__init__(self)
-        Voice.__init__(self)
 
         # Run to the start location
         self.set_direction('right')
@@ -159,10 +157,10 @@ def grab_and_place(obj_name, block):
     obj_grid = obj.get_grid()
 
     # Actions of grab and place an object
-    robot.speak('grab ' + obj_name)
+    # robot.speak('grab ' + obj_name)
     robot.run_to_goal(block_goal)
     robot.grab_obj(obj_name, block)
-    robot.speak('place ' + obj_name)
+    # robot.speak('place ' + obj_name)
     robot.run_to_goal(obj_goal)
     robot.run_in_grid(obj_grid)
     robot.place_obj(obj_name)
@@ -181,11 +179,11 @@ def half_shelf(shelf, side):
     robot.rotate_to_shelf(shelf)
     robot.capture()
     results = robot.classify(shelf, side)
+    print(results)
 
     # Grab and place the objects those are detected
-    for obj_name in ['yakult', 'jdb', 'tennis ball', 'mimi',
-                     'wired ball', 'shuttlecock', 'mouse']:
-        grab_and_place(obj_name, results[obj_name])
+    for obj_name, block in results.items():
+        grab_and_place(block, obj_name)
 
 
 def run():
