@@ -67,7 +67,7 @@ tennis_ball = Objs('tennis ball', '44', (8, 5), '4', (7.5, 5.5))
 mimi = Objs('mimi', '55', (6, 8), '5', (6.5, 7.5))
 wired_ball = Objs('wired ball', '66', (6, 8), '6', (6, 7.5))
 shuttercock = Objs('shuttlecock', '77', (6, 8), '7', (5.5, 7.5))
-mouse = Objs('mouse', '88', (3, 6), '8', (3.5, 6.5))
+mouse = Objs('mouse', '8g', (3, 6), '8', (3.5, 6.5))
 pencil = Objs('pencil', '9f', (3, 6), '9', (3.5, 6))
 pp_ball = Objs('pp ball', 'ae', (3, 6), '10', (3.5, 5.5))
 

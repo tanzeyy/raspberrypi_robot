@@ -1,0 +1,38 @@
+(dp0
+S'B8'
+p1
+S'mouse'
+p2
+sS'C9'
+p3
+S'mimi'
+p4
+sS'C8'
+p5
+S'wired ball'
+p6
+sS'C12'
+p7
+S'pencil'
+p8
+sS'C1'
+p9
+S'tennis ball'
+p10
+sS'C10'
+p11
+S'shuttlecock'
+p12
+sS'C7'
+p13
+S'yakult'
+p14
+sS'C5'
+p15
+S'jdb'
+p16
+sS'C4'
+p17
+S'pp ball'
+p18
+s.
