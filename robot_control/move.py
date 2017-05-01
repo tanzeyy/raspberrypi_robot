@@ -42,8 +42,8 @@ class Move(object):
                 GPIO.wait_for_edge(self.loc_inp, GPIO.BOTH, timeout=5000)
                 inp = GPIO.input(self.loc_inp)
                 if inp == 0:
-                    distance -= 1
                     print("Distance: ", distance)
+                    distance -= 1
                     if distance == 0:
                         self.stop()
                         break
@@ -78,9 +78,9 @@ class Move(object):
 
     def set_speed(self, speed):
         if speed == 'fast':
-            GPIO.output(self.speed_ctrl, 0)
-        elif speed == 'slow':
             GPIO.output(self.speed_ctrl, 1)
+        elif speed == 'slow':
+            GPIO.output(self.speed_ctrl, 0)
         else:
             raise Exception("Speed input error!")
 
