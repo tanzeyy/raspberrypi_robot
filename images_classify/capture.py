@@ -50,7 +50,7 @@ def capture_images(shelf, side, cap_src=1):
         if side == "left":
             block = str(int(block) + 6)
         cv2.imwrite((img_str + "%s.jpg") % block, img)
-    # cv2.imwrite('images_classify/images/%s/main.jpg' % shelf, proc_img)
+    cv2.imwrite('images_classify/images/%s%s.jpg' % (shelf, side), proc_img)
 
     cap.release()
 
