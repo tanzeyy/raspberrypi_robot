@@ -44,9 +44,11 @@ def label_images():
             if score > results[human_string][1]:
                 results[human_string] = (image.strip('.jpg'), score)
 
-    # results.pop('yellow cube')
     for obj, result in results.items():
         final_results[result[0]] = obj
+
+    if final_results.get('no'):
+        final_results.pop('no')
 
     return final_results
 
