@@ -73,7 +73,7 @@ def search(graph, start, goal):
             new_cost = cost_so_far[current] + graph.cost(current, next_one)
             if next_one not in cost_so_far or new_cost < cost_so_far[next_one]:
                 cost_so_far[next_one] = new_cost
-                priority = new_cost + heuristic(goal, next_one)
+                priority = new_cost  # + heuristic(goal, next_one)
                 frontier.put(next_one, priority)
                 came_from[next_one] = current
 
@@ -157,4 +157,12 @@ def get_route(start, goal):
     path = reconstruct_path(came_from, start, goal)
     middle_points = generate_middle_point(path)
     route = generate_route(middle_points)
-    return route
+
+    length = 0
+    for way in route:
+        length += way[1]
+
+    return route, length
+
+if __name__ == '__main__':
+    route, length = get_route((5, 2), (6, 9))
