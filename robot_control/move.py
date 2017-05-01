@@ -34,6 +34,7 @@ class Move(object):
     def move_by_grid(self, distance):
         GPIO.output(self.run_enable, 1)
         GPIO.output(self.red_enable, 1)
+        # Avoid detecting the start point
         time.sleep(0.5)
         while True:
             try:
@@ -47,8 +48,6 @@ class Move(object):
                         self.stop()
                         break
                     time.sleep(0.4)
-            except KeyboardInterrupt:
-                self.stop()
             except:
                 self.stop()
 

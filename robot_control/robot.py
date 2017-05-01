@@ -47,7 +47,7 @@ class Robot(Arm, Classifier, Move):
 
     def run_to_goal(self, goal):
         # Get the route of current location to the goal
-        route = get_route(self.waze, goal)
+        route, length = get_route(self.waze, goal)
         print(route)
 
         for way in route:
@@ -109,7 +109,8 @@ class Robot(Arm, Classifier, Move):
     def grab_obj(self, obj_name, block):
         # Get the information of the block
         shelf = block[0:1]
-        other_shelf = filter(lambda x: x != shelf, ['A', 'B', 'C', 'D'])[0]
+        back_block_goal = get_back_coordinates(block)
+        # other_shelf = filter(lambda x: x != shelf, ['A', 'B', 'C', 'D'])[0]
         pos = get_position(block)
         pre_act = pos[0]
         end_act = pos[1]
@@ -119,14 +120,15 @@ class Robot(Arm, Classifier, Move):
         obj_paw = obj.get_paw(block)
 
         # Actions of grab objects
-        print("Start grab...")
+        print("Start grab %s..." % obj_name)
         self.arm_port.flushOutput()
         self.rotate_to_shelf(shelf)
-        # self.open_paw()
         self.act(pre_act)
         self.grab(obj_paw)
+        # Go back first after grabbed object
+        self.run_to_goal(back_block_goal)
         self.act(end_act)
-        self.rotate_to_shelf(other_shelf)
+        # self.rotate_to_shelf(other_shelf)
         self.restore()
         print("Grab over!")
 
@@ -134,7 +136,7 @@ class Robot(Arm, Classifier, Move):
         # Get the information of the cart to place the holding object
         obj = get_obj(obj_name)
         obj_cart = obj.get_cart()
-        print("Start place object...")
+        print("Start place %s..." % obj_name)
         self.arm_port.flushOutput()
         self.rotate_to_cart(obj_cart)
         self.place()
@@ -157,10 +159,10 @@ def grab_and_place(obj_name, block):
     obj_grid = obj.get_grid()
 
     # Actions of grab and place an object
-    # robot.speak('grab ' + obj_name)
     robot.run_to_goal(block_goal)
     robot.grab_obj(obj_name, block)
-    # robot.speak('place ' + obj_name)
+
+    # Go to place object
     robot.run_to_goal(obj_goal)
     robot.run_in_grid(obj_grid)
     robot.place_obj(obj_name)
@@ -183,8 +185,8 @@ def half_shelf(shelf, side):
     print(results)
 
     # Grab and place the objects those are detected
-    for obj_name, block in results.items():
-        grab_and_place(block, obj_name)
+    for block, obj_name in results.items():
+        grab_and_place(obj_name, block)
 
 
 def run():
@@ -195,13 +197,14 @@ def run():
 
 if __name__ == '__main__':
     import sys
-    shelves = None
     try:
-        shelves = sys.argv[1:]
-    except:
-        run()
+        if len(sys.argv) > 1:
+            shelves = sys.argv[1:]
+        else:
+            shelves = sys.argv[1]
 
-    if shelves is not None:
         for shelf in shelves:
             for side in ['right', 'left']:
                 half_shelf(shelf, side)
+    except:
+        run()
