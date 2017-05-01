@@ -32,6 +32,20 @@ def get_coordinates(block):
     return coordinates[block]
 
 
+def get_back_coordinates(block):
+    shelf = block[0:1]
+    coordinate = coordinates[block]
+    if shelf == 'A':
+        coordinate = (coordinate[0], coordinate[1] + 1)
+    elif shelf == 'B':
+        coordinate = (coordinate[0] - 1, coordinate[1])
+    elif shelf == 'C':
+        coordinate = (coordinate[0], coordinate[1] - 1)
+    elif shelf == 'D':
+        coordinate = (coordinate[0] + 1, coordinate[1])
+    return coordinate
+
+
 # Objects class
 class Objs(object):
     def __init__(self, name, paw, goal, cart, grid):
