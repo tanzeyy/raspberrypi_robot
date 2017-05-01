@@ -122,7 +122,7 @@ class Robot(Arm, Classifier, Move):
         print("Start grab...")
         self.arm_port.flushOutput()
         self.rotate_to_shelf(shelf)
-        self.open_paw()
+        # self.open_paw()
         self.act(pre_act)
         self.grab(obj_paw)
         self.act(end_act)
@@ -166,6 +166,7 @@ def grab_and_place(obj_name, block):
     robot.place_obj(obj_name)
     time.sleep(0.8)
     robot.run_in_grid(obj_grid, 'exit')
+    time.sleep(0.3)
 
 
 def half_shelf(shelf, side):
