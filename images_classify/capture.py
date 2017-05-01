@@ -3,7 +3,6 @@
 import cv2
 import numpy as np
 import os
-import time
 
 # Set the block pixel size
 upper = [360, 760]
