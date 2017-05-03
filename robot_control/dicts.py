@@ -60,9 +60,9 @@ class Objs(object):
 
     def get_paw(self, block):
         if int(block[1:]) % 2 == 0:
-            return self.paw[1:]
+            return self.paw[0]
         else:
-            return self.paw[:1]
+            return self.paw[1]
 
     def get_goal(self):
         return self.goal
