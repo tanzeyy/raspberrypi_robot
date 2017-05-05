@@ -40,14 +40,14 @@ class Move(object):
         while True:
             # Waiting for the edge of loc_inp to record distance
             GPIO.wait_for_edge(self.loc_inp, GPIO.BOTH, timeout=5000)
-            inp = GPIO.input(self.loc_inp)
-            if inp == 0:
+            if not GPIO.input(self.loc_inp):
                 print("Distance: ", distance)
                 distance -= 1
                 if distance == 0:
                     self.stop()
                     break
                 time.sleep(0.4)
+        return distance
 
     def move_by_time(self, t):
         GPIO.output(self.run_enable, 1)

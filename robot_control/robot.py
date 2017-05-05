@@ -94,10 +94,6 @@ class Robot(Arm, Classifier, Move):
         # Filter out the 'no' route
         route = filter(lambda dirc: dirc != 'no', [first, second])
 
-        # Way to exit grid
-        trans = {'up': 'down', 'right': 'left',
-                 'down': 'up', 'left': 'right'}
-
         if method == 'in':
             route = route
         elif method == 'exit':

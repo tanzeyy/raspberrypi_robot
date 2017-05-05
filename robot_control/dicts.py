@@ -135,3 +135,8 @@ def get_shelf_side(shelf, side):
     for slf in shelves:
         if slf.get_name() == shelf:
             return slf.get_side(side)
+
+
+# Way to exit grid
+trans = {'up': 'down', 'right': 'left',
+         'down': 'up', 'left': 'right'}
