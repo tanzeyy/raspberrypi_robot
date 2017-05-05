@@ -33,10 +33,12 @@ class Move(object):
         GPIO.setup(self.speed_ctrl, GPIO.OUT)
 
     def move_by_grid(self, distance):
+        dis = distance
         GPIO.output(self.run_enable, 1)
         GPIO.output(self.red_enable, 1)
         # Avoid detecting the start point
-        time.sleep(0.5)
+        time.sleep(0.3)
+        start_time = time.time()
         while True:
             # Waiting for the edge of loc_inp to record distance
             GPIO.wait_for_edge(self.loc_inp, GPIO.BOTH, timeout=5000)
@@ -47,6 +49,8 @@ class Move(object):
                     self.stop()
                     break
                 time.sleep(0.4)
+        end_time = time.time()
+        print('Running time: ', (end_time - start_time) / dis)
         return distance
 
     def move_by_time(self, t):
