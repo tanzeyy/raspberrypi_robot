@@ -23,12 +23,15 @@ class Robot(Arm, Classifier, Move):
         # Run to the start location
         self.set_direction('right')
         self.move_by_grid(1)
-        self.waze = (1, 3)
+        self.__waze = (1, 3)
         print("Initialize over")
 
     def get_waze(self):
         # Return the current location
-        return self.waze
+        return self.__waze
+
+    def set_waze(self, coordinate):
+        self.__waze = coordinate
 
     def classify(self, shelf, side):
         # Get the block: obj pair of what is detected
@@ -47,7 +50,7 @@ class Robot(Arm, Classifier, Move):
 
     def run_to_goal(self, goal):
         # Get the route of current location to the goal
-        route, length = get_route(self.waze, goal)
+        route, length = get_route(self.__waze, goal)
         print(route)
 
         for way in route:
@@ -56,12 +59,12 @@ class Robot(Arm, Classifier, Move):
                 # Decelerate in the last grid
             self.move(way[0], 1, 'grid', 'slow')
 
-        self.waze = goal
-        print("Current waze: ", self.waze)
+        self.__waze = goal
+        print("Current waze: ", self.__waze)
 
     def run_in_grid(self, grid, method='in'):
         # Determine the route of current location to the place-location
-        (x1, y1) = self.waze
+        (x1, y1) = self.__waze
         (x2, y2) = grid
         if x1 < x2:
             first = 'right'
