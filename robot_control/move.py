@@ -6,6 +6,7 @@ from __future__ import print_function
 
 import RPi.GPIO as GPIO
 import time
+import threading
 
 
 class Move(object):
@@ -37,19 +38,16 @@ class Move(object):
         # Avoid detecting the start point
         time.sleep(0.5)
         while True:
-            try:
-                # Waiting for the edge of loc_inp to record distance
-                GPIO.wait_for_edge(self.loc_inp, GPIO.BOTH, timeout=5000)
-                inp = GPIO.input(self.loc_inp)
-                if inp == 0:
-                    print("Distance: ", distance)
-                    distance -= 1
-                    if distance == 0:
-                        self.stop()
-                        break
-                    time.sleep(0.4)
-            except:
-                self.stop()
+            # Waiting for the edge of loc_inp to record distance
+            GPIO.wait_for_edge(self.loc_inp, GPIO.BOTH, timeout=5000)
+            inp = GPIO.input(self.loc_inp)
+            if inp == 0:
+                print("Distance: ", distance)
+                distance -= 1
+                if distance == 0:
+                    self.stop()
+                    break
+                time.sleep(0.4)
 
     def move_by_time(self, t):
         GPIO.output(self.run_enable, 1)
