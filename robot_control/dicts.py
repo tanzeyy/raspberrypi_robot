@@ -58,11 +58,14 @@ class Objs(object):
     def get_name(self):
         return self.name
 
+    def get_pre_paw(self):
+        return self.paw[2]
+
     def get_paw(self, block):
         if int(block[1:]) % 2 == 0:
-            return self.paw[1:]
+            return self.paw[0]
         else:
-            return self.paw[:1]
+            return self.paw[1]
 
     def get_goal(self):
         return self.goal
@@ -73,17 +76,18 @@ class Objs(object):
     def get_grid(self):
         return self.grid
 
+
 # Instances of the objects
-yellow_cube = Objs('yellow cube', 'bb', (5, 3), '1', (5, 3.5))
-yakult = Objs('yakult', 'cc', (8, 5), '2', (7.5, 4.5))
-jdb = Objs('jdb', '33', (8, 5), '3', (7.5, 5))
-tennis_ball = Objs('tennis ball', '44', (8, 5), '4', (7.5, 5.5))
-mimi = Objs('mimi', '55', (6, 8), '5', (6.5, 7.5))
-wired_ball = Objs('wired ball', '66', (6, 8), '6', (6, 7.5))
-shuttercock = Objs('shuttlecock', '77', (6, 8), '7', (5.5, 7.5))
-mouse = Objs('mouse', '8g', (3, 6), '8', (3.5, 6.5))
-pencil = Objs('pencil', '9f', (3, 6), '9', (3.5, 6))
-pp_ball = Objs('pp ball', 'ae', (3, 6), '10', (3.5, 5.5))
+yellow_cube = Objs('yellow cube', 'bbj', (5, 3), '1', (5, 3.5))
+yakult = Objs('yakult', 'cci', (8, 5), '2', (7.5, 4.5))
+jdb = Objs('jdb', '33i', (8, 5), '3', (7.5, 5))
+tennis_ball = Objs('tennis ball', '44i', (8, 5), '4', (7.5, 5.5))
+mimi = Objs('mimi', '55i', (6, 8), '5', (6.5, 7.5))
+wired_ball = Objs('wired ball', '66i', (6, 8), '6', (6, 7.5))
+shuttercock = Objs('shuttlecock', '77i', (6, 8), '7', (5.5, 7.5))
+mouse = Objs('mouse', '8gi', (3, 6), '8', (3.5, 6.5))
+pencil = Objs('pencil', '9fj', (3, 6), '9', (3.5, 6))
+pp_ball = Objs('pp ball', 'aei', (3, 6), '10', (3.5, 5.5))
 
 
 # Get the object with the specified name

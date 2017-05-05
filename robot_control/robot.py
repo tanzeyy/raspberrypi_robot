@@ -160,8 +160,10 @@ def grab_and_place(obj_name, block):
     obj_goal = obj.get_goal()
     obj_cart = obj.get_cart()
     obj_grid = obj.get_grid()
+    obj_pre_paw = obj.get_pre_paw()
 
     # Actions of grab and place an object
+    robot.rotate_paw(obj_pre_paw)
     robot.run_to_goal(block_goal)
     robot.grab_obj(obj_name, block)
 

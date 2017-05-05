@@ -38,6 +38,9 @@ class Arm(object):
         self.arm_port.write(act)
         self.wait_for_act_end_signal()
 
+    def rotate_paw(self, act):
+        self.arm_port.write(act)
+
     def rotate_to_shelf(self, shelf):
         if shelf == 'A':
             self.arm_port.write('d')
