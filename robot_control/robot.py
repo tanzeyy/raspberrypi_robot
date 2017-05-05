@@ -42,11 +42,18 @@ class Robot(Arm, Classifier, Move):
         self.set_speed(speed)
 
         if method == 'grid':
-            self.move_by_grid(arg)
+            moved_distance = self.move_by_grid(arg)
         elif method == 'time':
-            self.move_by_time(arg)
+            moved_distance = self.move_by_time(arg)
         else:
             raise Exception("Move method input error!")
+
+        return moved_distance
+
+    def correct_movement_error(self, dircetion):
+        corr_dirc = map(lambda dirc: trans[dirc], direction)
+        self.set_direction(corr_dirc)
+        self.move_by_time(1)
 
     def run_to_goal(self, goal):
         # Get the route of current location to the goal
@@ -54,10 +61,20 @@ class Robot(Arm, Classifier, Move):
         print(route)
 
         for way in route:
-            if way[1] > 1:
-                self.move(way[0], way[1] - 1, 'grid', 'fast')
+            direciton = way[0]
+            total_distance = way[1]
+            move_distance = total_distance - 1
+            if total_distance > 1:
+                while True:
+                    move_distance = self.move(direction, move_distance,
+                                              'grid', 'fast')
+                    if move_distance != 0:
+                        self.correct_movement_error(move_distance, direciton)
+                    else:
+                        break
+
                 # Decelerate in the last grid
-            self.move(way[0], 1, 'grid', 'slow')
+            move_distance = self.move(direciton, 1, 'grid', 'slow')
 
         self.__waze = goal
         print("Current waze: ", self.__waze)

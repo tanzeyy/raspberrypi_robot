@@ -18,6 +18,9 @@ class Move(object):
         self.loc_inp = 37
         self.speed_ctrl = 38
 
+        self.speed = 'slow'
+        self.direction = 'right'
+
         # Set up channels
 
         # cha1 & cha2: set up the moving direction
@@ -32,21 +35,36 @@ class Move(object):
         GPIO.setup(self.loc_inp, GPIO.IN)
         GPIO.setup(self.speed_ctrl, GPIO.OUT)
 
+    def __del__(self):
+        GPIO.cleanup()
+
     def move_by_grid(self, distance):
         GPIO.output(self.run_enable, 1)
         GPIO.output(self.red_enable, 1)
         # Avoid detecting the start point
         time.sleep(0.5)
+        if self.speed = 'fast':
+            check_time = 1000
+        else:
+            check_time = 2100
+
         while True:
             # Waiting for the edge of loc_inp to record distance
-            GPIO.wait_for_edge(self.loc_inp, GPIO.BOTH, timeout=5000)
-            if not GPIO.input(self.loc_inp):
-                print("Distance: ", distance)
-                distance -= 1
-                if distance == 0:
-                    self.stop()
-                    break
-                time.sleep(0.4)
+            channel = GPIO.wait_for_edge(self.loc_inp, GPIO.BOTH,
+                                         timeout=check_time)
+            if channel is not None:
+                if not GPIO.input(self.loc_inp):
+                    distance -= 1
+                    print("Distance: ", distance)
+                    if distance == 0:
+                        self.stop()
+                        break
+                    time.sleep(0.4)
+
+            else:  # Detection timeout
+                self.stop()
+                break
+
         return distance
 
     def move_by_time(self, t):
@@ -57,6 +75,8 @@ class Move(object):
             self.stop()
         except:
             self.stop()
+
+        return 0
 
     def set_direction(self, dirc):
         if dirc == 'left':
@@ -73,14 +93,16 @@ class Move(object):
             GPIO.output(self.cha2, 0)
         else:
             raise Exception("Direction input error!")
+        self.direction = dirc
 
-    def set_speed(self, speed):
-        if speed == 'fast':
+    def set_speed(self, spd):
+        if spd == 'fast':
             GPIO.output(self.speed_ctrl, 1)
-        elif speed == 'slow':
+        elif spd == 'slow':
             GPIO.output(self.speed_ctrl, 0)
         else:
             raise Exception("Speed input error!")
+        self.speed = spd
 
     def stop(self):
         GPIO.output(self.run_enable, GPIO.LOW)
