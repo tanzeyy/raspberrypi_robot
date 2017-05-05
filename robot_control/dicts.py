@@ -1,16 +1,22 @@
 #!/usr/bin/env python
 
 position = {
-    'upper': ('U', 'E'), 'lower': ('D', 'Q')
+    'upper': ('U', 'Y'), 'lower': ('D', 'X')
 }
 
 
-def get_position(block):
+def get_position(obj_name, block):
     if int(block[1:]) % 2 == 0:
         pos = 'lower'
     else:
         pos = 'upper'
-    return position[pos]
+
+    if obj_name == 'yellow cube':
+        return position[pos][1]
+    elif obj_name == 'pencil':
+        return position[pos][1]
+    else:
+        return position[pos][0]
 
 
 # Coordinates of the blocks on the shelf
@@ -85,9 +91,9 @@ tennis_ball = Objs('tennis ball', '44i', (8, 5), '4', (7.5, 5.5))
 mimi = Objs('mimi', '55i', (6, 8), '5', (6.5, 7.5))
 wired_ball = Objs('wired ball', '66i', (6, 8), '6', (6, 7.5))
 shuttercock = Objs('shuttlecock', '77i', (6, 8), '7', (5.5, 7.5))
-mouse = Objs('mouse', '8gi', (3, 6), '8', (3.5, 6.5))
-pencil = Objs('pencil', '9fj', (3, 6), '9', (3.5, 6))
-pp_ball = Objs('pp ball', 'aei', (3, 6), '10', (3.5, 5.5))
+mouse = Objs('mouse', 'g8i', (3, 6), '8', (3.5, 6.5))
+pencil = Objs('pencil', 'f9j', (3, 6), '9', (3.5, 6))
+pp_ball = Objs('pp ball', 'eai', (3, 6), '10', (3.5, 5.5))
 
 
 # Get the object with the specified name

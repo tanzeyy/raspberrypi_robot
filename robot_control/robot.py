@@ -111,9 +111,9 @@ class Robot(Arm, Classifier, Move):
         shelf = block[0:1]
         back_block_goal = get_back_coordinates(block)
         # other_shelf = filter(lambda x: x != shelf, ['A', 'B', 'C', 'D'])[0]
-        pos = get_position(block)
+        pos = get_position(obj_name, block)
         pre_act = pos[0]
-        end_act = pos[1]
+        # end_act = pos[1]
 
         # Get the information of the object
         obj = get_obj(obj_name)
@@ -127,7 +127,7 @@ class Robot(Arm, Classifier, Move):
         self.grab(obj_paw)
         # Go back first after grabbed object
         self.run_to_goal(back_block_goal)
-        self.act(end_act)
+        # self.act(end_act)
         # self.rotate_to_shelf(other_shelf)
         self.restore()
         print("Grab over!")
@@ -209,4 +209,5 @@ if __name__ == '__main__':
             for side in ['right', 'left']:
                 half_shelf(shelf, side)
     except:
+        time.sleep(10)
         run()
