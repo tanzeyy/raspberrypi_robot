@@ -39,10 +39,12 @@ class Move(object):
         GPIO.cleanup()
 
     def move_by_grid(self, distance):
+        dis = distance
         GPIO.output(self.run_enable, 1)
         GPIO.output(self.red_enable, 1)
         # Avoid detecting the start point
-        time.sleep(0.5)
+        time.sleep(0.3)
+        start_time = time.time()
         if self.speed = 'fast':
             check_time = 1000
         else:
@@ -64,6 +66,8 @@ class Move(object):
             else:  # Detection timeout
                 self.stop()
                 break
+        end_time = time.time()
+        print('Running time: ', (end_time - start_time) / dis)
 
         return distance
 
