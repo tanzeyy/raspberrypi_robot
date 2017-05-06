@@ -53,6 +53,10 @@ class Robot(Arm, Classifier, Move):
     def correct_movement_error(self, dircetion):
         corr_dirc = map(lambda dirc: trans[dirc], direction)
         self.set_direction(corr_dirc)
+        if self.speed == 'fast':
+            check_time = 1000
+        else:
+            check_time = 2100
         self.move_by_time(1)
 
     def run_to_goal(self, goal):

@@ -45,7 +45,7 @@ class Move(object):
         # Avoid detecting the start point
         time.sleep(0.3)
         start_time = time.time()
-        if self.speed = 'fast':
+        if self.speed == 'fast':
             check_time = 1000
         else:
             check_time = 2100
