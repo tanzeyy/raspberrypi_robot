@@ -53,11 +53,11 @@ class Robot(Arm, Classifier, Move):
     def correct_movement_error(self, direction):
         corr_dirc = trans[direction]
         self.set_direction(corr_dirc)
-        if self.speed == 'fast':
-            corr_time = 1.3
-        else:
-            corr_time = 2.4
-        self.move_by_time(corr_time)
+        current_speed = self.speed
+        self.set_speed('slow')
+        time.sleep(0.2)
+        self.move_by_time(2.5)
+        self.set_speed(current_speed)
 
     def run_to_goal(self, goal):
         # Get the route of current location to the goal
@@ -130,7 +130,7 @@ class Robot(Arm, Classifier, Move):
             raise Exception("Grid method input error!")
 
         for dirc in route:
-            self.move(dirc, 1, 'time', 'slow')
+            self.move(dirc, 1.2, 'time', 'slow')
 
     def grab_obj(self, obj_name, block):
         # Get the information of the block
