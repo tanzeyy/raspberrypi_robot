@@ -54,9 +54,9 @@ class Robot(Arm, Classifier, Move):
         corr_dirc = trans[direction]
         self.set_direction(corr_dirc)
         if self.speed == 'fast':
-            corr_time = 1.5
+            corr_time = 1.3
         else:
-            corr_time = 2.3
+            corr_time = 2.4
         self.move_by_time(corr_time)
 
     def run_to_goal(self, goal):
@@ -72,13 +72,19 @@ class Robot(Arm, Classifier, Move):
                 while True:
                     move_distance = self.move(direction, move_distance,
                                               'grid', 'fast')
+                    # Check for error
                     if move_distance != 0:
                         self.correct_movement_error(direction)
                     else:
                         break
 
-                # Decelerate in the last grid
-            move_distance = self.move(direction, 1, 'grid', 'slow')
+            # Decelerate in the last grid and check for error
+            while True:
+                move_distance = self.move(direction, 1, 'grid', 'slow')
+                if move_distance != 0:
+                    self.correct_movement_error(direction)
+                else:
+                    break
 
         self.__waze = goal
         print("Current waze: ", self.__waze)

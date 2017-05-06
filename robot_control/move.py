@@ -65,7 +65,7 @@ class Move(object):
                     if distance == 0:
                         self.stop()
                         break
-                    time.sleep(0.4)
+                    time.sleep(0.3)
 
             else:  # Detection timeout
                 self.stop()
