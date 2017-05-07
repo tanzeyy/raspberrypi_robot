@@ -50,14 +50,14 @@ class Robot(Arm, Classifier, Move):
 
         return moved_distance
 
-    def correct_movement_error(self, dircetion):
-        corr_dirc = map(lambda dirc: trans[dirc], direction)
+    def correct_movement_error(self, direction):
+        corr_dirc = trans[direction]
         self.set_direction(corr_dirc)
-        if self.speed == 'fast':
-            check_time = 1000
-        else:
-            check_time = 2100
-        self.move_by_time(1)
+        current_speed = self.speed
+        self.set_speed('slow')
+        time.sleep(0.2)
+        self.move_by_time(2.5)
+        self.set_speed(current_speed)
 
     def run_to_goal(self, goal):
         # Get the route of current location to the goal
@@ -65,20 +65,26 @@ class Robot(Arm, Classifier, Move):
         print(route)
 
         for way in route:
-            direciton = way[0]
+            direction = way[0]
             total_distance = way[1]
             move_distance = total_distance - 1
             if total_distance > 1:
                 while True:
                     move_distance = self.move(direction, move_distance,
                                               'grid', 'fast')
+                    # Check for error
                     if move_distance != 0:
-                        self.correct_movement_error(move_distance, direciton)
+                        self.correct_movement_error(direction)
                     else:
                         break
 
-                # Decelerate in the last grid
-            move_distance = self.move(direciton, 1, 'grid', 'slow')
+            # Decelerate in the last grid and check for error
+            while True:
+                move_distance = self.move(direction, 1, 'grid', 'slow')
+                if move_distance != 0:
+                    self.correct_movement_error(direction)
+                else:
+                    break
 
         self.__waze = goal
         print("Current waze: ", self.__waze)
@@ -124,7 +130,7 @@ class Robot(Arm, Classifier, Move):
             raise Exception("Grid method input error!")
 
         for dirc in route:
-            self.move(dirc, 1, 'time', 'slow')
+            self.move(dirc, 1.2, 'time', 'slow')
 
     def grab_obj(self, obj_name, block):
         # Get the information of the block

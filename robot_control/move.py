@@ -35,8 +35,12 @@ class Move(object):
         GPIO.setup(self.loc_inp, GPIO.IN)
         GPIO.setup(self.speed_ctrl, GPIO.OUT)
 
-    def __del__(self):
-        GPIO.cleanup()
+        GPIO.output(self.run_enable, 0)
+        GPIO.output(self.red_enable, 0)
+        GPIO.output(self.speed_ctrl, 0)
+        # Init direction to right
+        GPIO.output(self.cha1, 1)
+        GPIO.output(self.cha2, 1)
 
     def move_by_grid(self, distance):
         dis = distance
@@ -61,7 +65,7 @@ class Move(object):
                     if distance == 0:
                         self.stop()
                         break
-                    time.sleep(0.4)
+                    time.sleep(0.3)
 
             else:  # Detection timeout
                 self.stop()

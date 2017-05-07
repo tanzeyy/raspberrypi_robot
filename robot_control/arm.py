@@ -42,6 +42,7 @@ class Arm(object):
         self.arm_port.write(act)
 
     def rotate_to_shelf(self, shelf):
+        self.restore()
         if shelf == 'A':
             self.arm_port.write('d')
         elif shelf == 'B':
@@ -55,6 +56,7 @@ class Arm(object):
         time.sleep(0.8)
 
     def rotate_to_cart(self, cart):
+        self.restore()
         if cart == '1':
             self.arm_port.write('u')
         elif cart == '2' or cart == '3' or cart == '4':
