@@ -9,6 +9,8 @@ from classifier import Classifier
 from move import Move
 from search import get_route
 from dicts import *
+
+from collections import OrderedDict
 import time
 
 
@@ -199,6 +201,28 @@ def grab_and_place(obj_name, block):
     time.sleep(0.3)
 
 
+def get_shortest_route(results):
+    # Initial the start point and shortest_route
+    start_point = (2, 6)
+    l = 100
+    shortest_route = OrderedDict()
+
+    while len(results) != 0:
+        for block, obj_name in results.items():
+            route, length = get_route(start_point, get_coordinates(block))
+            if l >= length:
+                l = length
+                next_obj = obj_name
+                next_block = block
+        # Find the nearest block, store the objects in shortest_route
+        start_point = get_obj(next_obj).get_goal()
+        shortest_route[next_obj] = next_block
+        results.pop(next_block)
+        l = 100
+
+    return shortest_route
+
+
 def half_shelf(shelf, side):
 
     # Go to the capture point of the shelf
@@ -210,11 +234,18 @@ def half_shelf(shelf, side):
     robot.rotate_to_shelf(shelf)
     robot.capture()
     results = robot.classify(shelf, side)
-    print(results)
+    # Generate the shortest route to grab objects
+    shortest_route = get_shortest_route(results)
+    print(shortest_route)
 
     # Grab and place the objects those are detected
-    for block, obj_name in results.items():
-        grab_and_place(obj_name, block)
+    for obj_name, block in shortest_route.items():
+        if obj_name == 'pp ball':
+            last_block = block
+        else:
+            grab_and_place(obj_name, block)
+
+    grab_and_place('pp_ball', last_block)
 
 
 def run():
