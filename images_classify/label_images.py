@@ -17,6 +17,7 @@ def label_images():
     label_lines = [line.rstrip() for line in
                    tf.gfile.GFile("images_classify/tf_files/labels.txt")]
 
+    # Initial the results
     for line in label_lines:
         results[line] = ('no', 0)
 
