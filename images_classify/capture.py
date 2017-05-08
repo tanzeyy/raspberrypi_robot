@@ -24,16 +24,16 @@ def capture_images(shelf, side, cap_src=1):
     cap.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 1920)
     cap.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 1080)
 
-    if not os.path.exists("images_classify/images/A"):
-        os.makedirs("images_classify/images/A")
+    if not os.path.exists("images/A"):
+        os.makedirs("images/A")
 
-    if not os.path.exists("images_classify/images/BCD"):
-        os.makedirs("images_classify/images/BCD")
+    if not os.path.exists("images/BCD"):
+        os.makedirs("images/BCD")
 
     if shelf == 'A':
-        img_str = ("images_classify/images/A/%s" % shelf)
+        img_str = ("images/A/%s" % shelf)
     else:
-        img_str = ("images_classify/images/BCD/%s" % shelf)
+        img_str = ("images/BCD/%s" % shelf)
 
     # Take the frame with highest resolution
     var = 0
@@ -49,7 +49,7 @@ def capture_images(shelf, side, cap_src=1):
         if side == "left":
             block = str(int(block) + 6)
         cv2.imwrite((img_str + "%s.jpg") % block, img)
-    cv2.imwrite('images_classify/images/%s%s.jpg' % (shelf, side), proc_img)
+    cv2.imwrite('images/%s%s.jpg' % (shelf, side), proc_img)
 
     cap.release()
 
