@@ -30,8 +30,13 @@ class Arm(object):
         self.arm_port.write('R')
         self.wait_for_act_end_signal()
 
-    def capture(self):
-        self.arm_port.write('T')
+    def capture_action(self, action):
+        if action == 'up':
+            self.arm_port.write('T')
+        elif action == 'down':
+            self.arm_port.write('t')
+        else:
+            raise Exception('Action input error!')
         self.wait_for_act_end_signal()
 
     def act(self, act):
@@ -42,7 +47,6 @@ class Arm(object):
         self.arm_port.write(act)
 
     def rotate_to_shelf(self, shelf):
-        self.restore()
         if shelf == 'A':
             self.arm_port.write('d')
         elif shelf == 'B':
@@ -56,7 +60,6 @@ class Arm(object):
         time.sleep(0.8)
 
     def rotate_to_cart(self, cart):
-        self.restore()
         if cart == '1':
             self.arm_port.write('u')
         elif cart == '2' or cart == '3' or cart == '4':

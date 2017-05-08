@@ -223,18 +223,24 @@ def get_shortest_route(results):
     return shortest_route
 
 
-def half_shelf(shelf, side):
+def capture_images_of_one_shelf(shelf):
+    shelf_goal = get_shelf_goal(shelf)
+    num = 1
+    for goal in shelf_goal:
+        if num % 2 == 1:
+            act = 'up'
+        else:
+            act = 'down'
+        robot.rotate_to_shelf(shelf)
+        robot.run_to_goal(shelf_goal)
+        robot.capture_image(shelf)
+        robot.capture_action(act)
+        robot.capture_image(shelf)
+        num += 1
 
-    # Go to the capture point of the shelf
-    shelf_goal = get_shelf_side(shelf, side)
-    print(shelf_goal)
-    robot.run_to_goal(shelf_goal)
 
-    # Rotate camera to the shelf and take pictures
-    robot.rotate_to_shelf(shelf)
-    robot.capture()
-    results = robot.classify(shelf, side)
-    # Generate the shortest route to grab objects
+def gogogo(shelf):
+    results = robot.get_classify_results(shelf)
     shortest_route = get_shortest_route(results)
     print(shortest_route)
 
@@ -244,9 +250,12 @@ def half_shelf(shelf, side):
 
 
 def run():
-    for shelf in ['A', 'B', 'C', 'D']:
-        for side in ['right', 'left']:
-            half_shelf(shelf, side)
+    capture_images_of_one_shelf('A')
+    gogogo('A')
+
+    for shelf in ['B', 'C', 'D']:
+        capture_images_of_one_shelf(shelf)
+    gogogo('D')
 
 
 if __name__ == '__main__':
@@ -258,8 +267,8 @@ if __name__ == '__main__':
             shelves = sys.argv[1]
 
         for shelf in shelves:
-            for side in ['right', 'left']:
-                half_shelf(shelf, side)
+            capture_images_of_one_shelf(shelf)
+            gogogo(shelf)
     except:
         time.sleep(10)
         run()

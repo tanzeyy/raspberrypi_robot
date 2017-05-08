@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# Send '#' to take image, '~' to get classify results
 from __future__ import print_function
 
 import serial
@@ -12,7 +13,17 @@ class Classifier(object):
     def __del__(self):
         self.pc_port.close()
 
-    def get_classify_results(self):
+    def capture_image(self, shelf):
+        self.pc_port.write('#')
+        self.pc_port.write(shelf)
+        while True:
+            ch = self.pc_port.read(1)
+            if ch == '!':
+                break
+
+    def get_classify_results(self, shelf):
+        self.pc_port.write('~')
+        self.pc_port.write(shelf)
         results = ""
 
         # Wait for results
