@@ -216,7 +216,7 @@ def get_shortest_route(results):
                 next_block = block
         # Find the nearest block, store the objects in shortest_route
         start_point = get_obj(next_obj).get_goal()
-        shortest_route[next_obj] = next_block
+        shortest_route[next_block] = next_obj
         results.pop(next_block)
         l = 100
 
@@ -239,13 +239,8 @@ def half_shelf(shelf, side):
     print(shortest_route)
 
     # Grab and place the objects those are detected
-    for obj_name, block in shortest_route.items():
-        if obj_name == 'pp ball':
-            last_block = block
-        else:
-            grab_and_place(obj_name, block)
-
-    grab_and_place('pp_ball', last_block)
+    for block, obj_name in shortest_route.items():
+        grab_and_place(obj_name, block)
 
 
 def run():

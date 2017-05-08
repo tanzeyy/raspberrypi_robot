@@ -4,7 +4,7 @@ import serial
 from classify import image_classify
 from capture import capture_images
 
-port = serial.Serial("/dev/ttyUSB0", 9600, timeout=1)
+port = serial.Serial("/dev/ttyUSB0", 9600)
 port.reset_input_buffer()
 
 send_data_end_char = '$'.encode('utf-8')
