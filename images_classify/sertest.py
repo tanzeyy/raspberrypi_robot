@@ -18,10 +18,10 @@ send_data_end_char = '$'
 # not_classify_end_char = '!'.encode('utf-8')
 
 if not os.path.exists('images/A'):
-        os.makedirs('images/A')
+    os.makedirs('images/A')
 
 if not os.path.exists('images/BCD'):
-        os.makedirs('images/BCD')
+    os.makedirs('images/BCD')
 
 
 def send_results():
@@ -36,6 +36,7 @@ def send_results():
     # Send the end character
     port.write(send_data_end_char)
 
+
 block = ['2', '1', '3', '4', '6', '5', '7', '8', '10', '9', '11', '12']
 
 
@@ -43,15 +44,14 @@ def run(cap_src):
 
     num = 0
 
-    cap = cv2.VideoCapture(cap_src)
-    cap.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 1920)
-    cap.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 1080)
-
     while True:
         rcv = port.read(1)
         print('Recived: ' + rcv)
 
         if rcv == '#':
+            cap = cv2.VideoCapture(cap_src)
+            cap.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 1920)
+            cap.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 1080)
             shelf = port.read(1)
             if shelf == 'A':
                 folder = 'A'
@@ -73,7 +73,7 @@ def run(cap_src):
             print('%s%s.jpg' % (shelf, block[num]), 'saved')
 
             num += 1
-            if num == 11:
+            if num == 12:
                 num = 0
             port.write('!')
         elif rcv == '~':
