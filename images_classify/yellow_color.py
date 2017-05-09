@@ -6,7 +6,7 @@ import os
 
 
 def is_yellow():
-    images = os.listdir("images_classify/images/A/")
+    images = os.listdir("images/A/")
     results = {}
 
     # Define range of yellow color in HSV
@@ -14,7 +14,7 @@ def is_yellow():
     upper_yellow = np.array([130, 255, 255])
 
     for image in images:
-        img = cv2.imread(str("images_classify/images/A/" + image))
+        img = cv2.imread(str("images/A/" + image))
         # Convert BGR to HSV and threshold the image to get only yellow colors
         hsv = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)
         mask = cv2.inRange(hsv, lower_yellow, upper_yellow)

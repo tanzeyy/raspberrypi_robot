@@ -7,6 +7,7 @@ import cv2
 import numpy as np
 import time
 import serial
+import os
 
 
 port = serial.Serial('/dev/ttyUSB0', 9600)
