@@ -132,7 +132,7 @@ class Robot(Arm, Classifier, Move):
             raise Exception("Grid method input error!")
 
         for dirc in route:
-            self.move(dirc, 1.2, 'time', 'slow')
+            self.move(dirc, 1.1, 'time', 'slow')
 
     def grab_obj(self, obj_name, block):
         # Get the information of the block
@@ -203,7 +203,7 @@ def grab_and_place(obj_name, block):
 
 def get_shortest_route(results):
     # Initial the start point and shortest_route
-    start_point = (2, 6)
+    start_point = (1, 5)
     l = 100
     shortest_route = OrderedDict()
 
@@ -225,6 +225,7 @@ def get_shortest_route(results):
 
 def capture_images_of_one_shelf(shelf):
     shelf_goal = get_shelf_goal(shelf)
+    robot.capture_action('down')
     num = 1
     for goal in shelf_goal:
         if num % 2 == 1:
@@ -232,9 +233,10 @@ def capture_images_of_one_shelf(shelf):
         else:
             act = 'down'
         robot.rotate_to_shelf(shelf)
-        robot.run_to_goal(shelf_goal)
+        robot.run_to_goal(goal)
         robot.capture_image(shelf)
         robot.capture_action(act)
+        time.sleep(0.5)
         robot.capture_image(shelf)
         num += 1
 
