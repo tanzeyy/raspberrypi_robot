@@ -26,11 +26,9 @@ class Arm(object):
     def place(self):
         self.arm_port.write('P')
         self.wait_for_act_end_signal()
-        self.arm_port.write('O')
-        self.wait_for_act_end_signal()
 
     def restore(self, obj=None):
-        if obj == 'pencil':
+        if obj == 'mouse':
             self.arm_port.write('F')
         else:
             self.arm_port.write('R')
@@ -63,7 +61,7 @@ class Arm(object):
             self.arm_port.write('l')
         else:
             raise Exception('Shelf input error!')
-        time.sleep(0.8)
+        time.sleep(0.5)
 
     def rotate_to_cart(self, cart):
         if cart == '1':
@@ -76,7 +74,7 @@ class Arm(object):
             self.arm_port.write('r')
         else:
             raise Exception('Cart number error!')
-        time.sleep(0.8)
+        time.sleep(0.5)
 
     def wait_for_act_end_signal(self):
         print("Waiting for end signal...")

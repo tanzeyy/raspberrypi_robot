@@ -132,11 +132,11 @@ class Robot(Arm, Classifier, Move):
             raise Exception("Grid method input error!")
 
         for dirc in route:
-            self.move(dirc, 1, 'time', 'slow')
+            self.move(dirc, 0.8, 'time', 'slow')
 
     def grab_obj(self, obj_name, block):
         # Get the information of the block
-        shelf = block[0:1]
+        #         shelf = block[0:1]
         back_block_goal = get_back_coordinates(block)
         # other_shelf = filter(lambda x: x != shelf, ['A', 'B', 'C', 'D'])[0]
         pos = get_position(obj_name, block)
@@ -146,11 +146,12 @@ class Robot(Arm, Classifier, Move):
         # Get the information of the object
         obj = get_obj(obj_name)
         obj_paw = obj.get_paw(block)
+        obj_cart = obj.get_cart()
 
         # Actions of grab objects
         print("Start grab %s..." % obj_name)
         self.arm_port.flushOutput()
-        self.rotate_to_shelf(shelf)
+#        self.rotate_to_shelf(shelf)
         self.act(pre_act)
         self.grab(obj_paw)
         # Go back first after grabbed object
@@ -162,11 +163,9 @@ class Robot(Arm, Classifier, Move):
 
     def place_obj(self, obj_name):
         # Get the information of the cart to place the holding object
-        obj = get_obj(obj_name)
-        obj_cart = obj.get_cart()
+        # obj = get_obj(obj_name)
         print("Start place %s..." % obj_name)
         self.arm_port.flushOutput()
-        self.rotate_to_cart(obj_cart)
         self.place()
         self.open_paw(obj_name)
         self.restore()
@@ -177,6 +176,7 @@ robot = Robot()
 
 
 def grab_and_place(obj_name, block):
+    shelf = block[0:1]
 
     # Get the coordinate of detected block
     block_goal = get_coordinates(block)
@@ -190,8 +190,10 @@ def grab_and_place(obj_name, block):
 
     # Actions of grab and place an object
     robot.rotate_paw(obj_pre_paw)
+    robot.rotate_to_shelf(shelf)
     robot.run_to_goal(block_goal)
     robot.grab_obj(obj_name, block)
+    robot.rotate_to_cart(obj_cart)
 
     # Go to place object
     robot.run_to_goal(obj_goal)
@@ -199,7 +201,7 @@ def grab_and_place(obj_name, block):
     robot.place_obj(obj_name)
     time.sleep(0.8)
     robot.run_in_grid(obj_grid, 'exit')
-    time.sleep(0.3)
+    # time.sleep(0.3)
 
 
 def get_shortest_route(results, shelf='D'):
