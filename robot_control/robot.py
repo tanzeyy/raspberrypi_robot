@@ -201,9 +201,12 @@ def grab_and_place(obj_name, block):
     time.sleep(0.3)
 
 
-def get_shortest_route(results):
+def get_shortest_route(results, shelf='D'):
     # Initial the start point and shortest_route
-    start_point = (1, 5)
+    if shelf == 'A':
+        start_point = (6, 1)
+    else:
+        start_point = (1, 5)
     l = 100
     shortest_route = OrderedDict()
 
@@ -219,6 +222,12 @@ def get_shortest_route(results):
         shortest_route[next_block] = next_obj
         results.pop(next_block)
         l = 100
+
+    heuristic = {}
+    for block, obj_name in shortest_route.items():
+        route, length = get_route(get_coordinates(block),
+                                  get_obj(obj_name).get_goal())
+        heuristic[block] = length
 
     return shortest_route
 
@@ -243,7 +252,7 @@ def capture_images_of_one_shelf(shelf):
 
 def gogogo(shelf):
     results = robot.get_classify_results(shelf)
-    shortest_route = get_shortest_route(results)
+    shortest_route = get_shortest_route(results, shelf)
     print(shortest_route)
 
     # Grab and place the objects those are detected

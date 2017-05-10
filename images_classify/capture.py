@@ -11,24 +11,18 @@ width = 640
 w = [0, width]
 blocks = {
     '6': (w, lower), '5': (w, upper),
-    '4': ([i+width for i in w], lower),
-    '3': ([i+width for i in w], upper),
-    '2': ([i+width*2 for i in w], lower),
-    '1': ([i+width*2 for i in w], upper),
+    '4': ([i + width for i in w], lower),
+    '3': ([i + width for i in w], upper),
+    '2': ([i + width * 2 for i in w], lower),
+    '1': ([i + width * 2 for i in w], upper),
 }
 
 
-def capture_images(shelf, side, cap_src=1):
+def capture_images(shelf, side, cap_src=0):
 
     cap = cv2.VideoCapture(cap_src)
     cap.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 1920)
     cap.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 1080)
-
-    if not os.path.exists("images/A"):
-        os.makedirs("images/A")
-
-    if not os.path.exists("images/BCD"):
-        os.makedirs("images/BCD")
 
     if shelf == 'A':
         img_str = ("images/A/%s" % shelf)
@@ -52,6 +46,7 @@ def capture_images(shelf, side, cap_src=1):
     cv2.imwrite('images/%s%s.jpg' % (shelf, side), proc_img)
 
     cap.release()
+
 
 if __name__ == '__main__':
     import sys
