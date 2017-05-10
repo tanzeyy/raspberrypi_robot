@@ -11,8 +11,11 @@ class Arm(object):
     def __init__(self):
         self.arm_port = serial.Serial('/dev/ttyACM0', 9600)
 
-    def open_paw(self):
-        self.arm_port.write('O')
+    def open_paw(self, obj):
+        if obj == 'pencil':
+            self.arm_port.write('o')
+        else:
+            self.arm_port.write('O')
         self.wait_for_act_end_signal()
 
     def grab(self, obj):
@@ -26,8 +29,11 @@ class Arm(object):
         self.arm_port.write('O')
         self.wait_for_act_end_signal()
 
-    def restore(self):
-        self.arm_port.write('R')
+    def restore(self, obj=None):
+        if obj == 'pencil':
+            self.arm_port.write('F')
+        else:
+            self.arm_port.write('R')
         self.wait_for_act_end_signal()
 
     def capture_action(self, action):

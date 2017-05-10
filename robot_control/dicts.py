@@ -85,15 +85,15 @@ class Objs(object):
 
 # Instances of the objects
 yellow_cube = Objs('yellow cube', 'bbj', (5, 3), '1', (5, 3.5))
-yakult = Objs('yakult', 'cci', (8, 5), '2', (7.5, 4.5))
+yakult = Objs('yakult', 'cci', (8, 4), '2', (7.5, 4.5))
 jdb = Objs('jdb', '33i', (8, 5), '3', (7.5, 5))
-tennis_ball = Objs('tennis ball', '44i', (8, 5), '4', (7.5, 5.5))
-mimi = Objs('mimi', '55i', (6, 8), '5', (6.5, 7.5))
+tennis_ball = Objs('tennis ball', '44i', (8, 6), '4', (7.5, 5.5))
+mimi = Objs('mimi', '55i', (7, 8), '5', (6.5, 7.5))
 wired_ball = Objs('wired ball', '66i', (6, 8), '6', (6, 7.5))
-shuttercock = Objs('shuttlecock', '77i', (6, 8), '7', (5.5, 7.5))
-mouse = Objs('mouse', 'g8i', (3, 6), '8', (3.5, 6.5))
+shuttercock = Objs('shuttlecock', '77i', (5, 8), '7', (5.5, 7.5))
+mouse = Objs('mouse', 'g8i', (3, 7), '8', (3.5, 6.5))
 pencil = Objs('pencil', 'f9j', (3, 6), '9', (3.5, 6))
-pp_ball = Objs('pp ball', 'eai', (3, 6), '10', (3.5, 5.5))
+pp_ball = Objs('pp ball', 'eai', (3, 5), '10', (3.5, 5.5))
 
 
 # Get the object with the specified name

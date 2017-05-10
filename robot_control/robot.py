@@ -58,7 +58,7 @@ class Robot(Arm, Classifier, Move):
         current_speed = self.speed
         self.set_speed('slow')
         time.sleep(0.2)
-        self.move_by_time(2.5)
+        self.move_by_time(2.3)
         self.set_speed(current_speed)
 
     def run_to_goal(self, goal):
@@ -132,7 +132,7 @@ class Robot(Arm, Classifier, Move):
             raise Exception("Grid method input error!")
 
         for dirc in route:
-            self.move(dirc, 1.1, 'time', 'slow')
+            self.move(dirc, 1, 'time', 'slow')
 
     def grab_obj(self, obj_name, block):
         # Get the information of the block
@@ -157,7 +157,7 @@ class Robot(Arm, Classifier, Move):
         self.run_to_goal(back_block_goal)
         # self.act(end_act)
         # self.rotate_to_shelf(other_shelf)
-        self.restore()
+        self.restore(obj_name)
         print("Grab over!")
 
     def place_obj(self, obj_name):
@@ -168,6 +168,7 @@ class Robot(Arm, Classifier, Move):
         self.arm_port.flushOutput()
         self.rotate_to_cart(obj_cart)
         self.place()
+        self.open_paw(obj_name)
         self.restore()
         print("Place over!")
 
