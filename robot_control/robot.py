@@ -226,12 +226,6 @@ def get_shortest_route(results, shelf='D'):
         results.pop(next_block)
         l = 100
 
-    heuristic = {}
-    for block, obj_name in shortest_route.items():
-        route, length = get_route(get_coordinates(block),
-                                  get_obj(obj_name).get_goal())
-        heuristic[block] = length
-
     return shortest_route
 
 
