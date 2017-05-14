@@ -22,6 +22,8 @@ class Robot(Arm, Classifier, Move):
         Classifier.__init__(self)
         Move.__init__(self)
 
+        # Check arm
+        # self.arm_check()
         # Run to the start location
         self.set_direction('right')
         self.move_by_grid(1)
@@ -132,7 +134,7 @@ class Robot(Arm, Classifier, Move):
             raise Exception("Grid method input error!")
 
         for dirc in route:
-            self.move(dirc, 0.8, 'time', 'slow')
+            self.move(dirc, 0.85, 'time', 'slow')
 
     def grab_obj(self, obj_name, block):
         # Get the information of the block
@@ -278,5 +280,5 @@ if __name__ == '__main__':
             capture_images_of_one_shelf(shelf)
             gogogo(shelf)
     except:
-        time.sleep(10)
+        # time.sleep(6)
         run()

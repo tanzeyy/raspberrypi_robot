@@ -76,6 +76,16 @@ class Arm(object):
             raise Exception('Cart number error!')
         time.sleep(0.5)
 
+    def arm_check(self):
+        self.restore()
+        self.capture_action('T')
+        self.restore()
+        for shelf in ['A', 'C', 'B', 'D', 'A']:
+            self.rotate_to_shelf(shelf)
+        robot.open_paw('Fuck')
+        robot.act('7')
+        robot.open_paw('Fuck')
+
     def wait_for_act_end_signal(self):
         print("Waiting for end signal...")
         while True:

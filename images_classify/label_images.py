@@ -32,7 +32,7 @@ def label_images():
         for image in images:
             softmax_tensor = sess.graph.get_tensor_by_name('final_result:0')
             image_data = tf.gfile.FastGFile(str('images/BCD/' +
-                                            image), 'rb').read()
+                                                image), 'rb').read()
             predictions = sess.run(softmax_tensor,
                                    {'DecodeJpeg/contents:0': image_data})
             top_k = predictions[0].argsort()[-len(predictions[0]):][::-1]
@@ -45,6 +45,9 @@ def label_images():
             if score > results[human_string][1]:
                 results[human_string] = (image.strip('.jpg'), score)
 
+    if results.get('tiaodou'):
+        results.pop('tiaodou')
+
     for obj, result in results.items():
         final_results[result[0]] = obj
 
@@ -52,6 +55,7 @@ def label_images():
         final_results.pop('no')
 
     return final_results
+
 
 if __name__ == '__main__':
     label_images()

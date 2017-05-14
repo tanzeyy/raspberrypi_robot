@@ -11,7 +11,7 @@ import serial
 import os
 
 
-port = serial.Serial('/dev/ttyUSB0', 9600)
+port = serial.Serial('/dev/ttyUSB0', 9600, timeout=3)
 port.reset_input_buffer()
 
 # Define start and end character
@@ -43,6 +43,22 @@ def send_results():
 
 # Block number
 block = ['2', '1', '3', '4', '6', '5', '7', '8', '10', '9', '11', '12']
+
+cap = cv2.VideoCapture(1)
+cap.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 1920)
+cap.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 1080)
+
+var = 0
+for i in range(15):
+    ret, frame = cap.read()
+    frame_var = cv2.Laplacian(frame, cv2.CV_64F).var()
+    if frame_var > var:
+        image = frame
+        var = frame_var
+
+cv2.imwrite('im.jpg', image)
+
+cap.release()
 
 
 def run(cap_src):
@@ -83,6 +99,8 @@ def run(cap_src):
                 num = 0
             port.write(capture_end_char)
 
+            cap.release()
+
         elif rcv == capture_a_shelf_char:
             shelf = port.read(1)
             print(shelf)
@@ -96,7 +114,6 @@ def run(cap_src):
             image_classify(shelf)
             send_results()
 
-        cap.release()
 
 
 if __name__ == '__main__':
