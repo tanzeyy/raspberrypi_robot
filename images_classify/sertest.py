@@ -19,7 +19,6 @@ send_data_end_char = '$'
 capture_char = '#'
 capture_end_char = '!'
 classify_char = '~'
-capture_a_shelf_char = '@'
 
 if not os.path.exists('images/A'):
     os.makedirs('images/A')
@@ -41,24 +40,25 @@ def send_results():
     port.write(send_data_end_char)
 
 
+def capture(cap_src):
+    cap = cv2.VideoCapture(cap_src)
+    cap.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 1920)
+    cap.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 1080)
+
+    # Take the frame with highest resolution
+    var = 0
+    for i in range(15):
+        ret, frame = cap.read()
+        frame_var = cv2.Laplacian(frame, cv2.CV_64F).var()
+        if frame_var > var:
+            image = frame
+            var = frame_var
+
+    cap.release()
+    return image
+
 # Block number
 block = ['2', '1', '3', '4', '6', '5', '7', '8', '10', '9', '11', '12']
-
-cap = cv2.VideoCapture(1)
-cap.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 1920)
-cap.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 1080)
-
-var = 0
-for i in range(15):
-    ret, frame = cap.read()
-    frame_var = cv2.Laplacian(frame, cv2.CV_64F).var()
-    if frame_var > var:
-        image = frame
-        var = frame_var
-
-cv2.imwrite('im.jpg', image)
-
-cap.release()
 
 
 def run(cap_src):
@@ -67,28 +67,18 @@ def run(cap_src):
 
     while True:
         rcv = port.read(1)
-        print('Recived: ' + rcv)
+        print('Reciving: ' + rcv)
 
         if rcv == capture_char:
-            cap = cv2.VideoCapture(cap_src)
-            cap.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 1920)
-            cap.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 1080)
             shelf = port.read(1)
-            print(shelf)
             if shelf == 'A':
                 folder = 'A'
             else:
                 folder = 'BCD'
-
             time.sleep(0.5)
 
-            var = 0
-            for i in range(15):
-                ret, frame = cap.read()
-                frame_var = cv2.Laplacian(frame, cv2.CV_64F).var()
-                if frame_var > var:
-                    image = frame
-                    var = frame_var
+            # Capture the image of current block
+            image = capture(cap_src)
 
             cv2.imwrite('images/%s/%s%s.jpg' %
                         (folder, shelf, block[num]), image)
@@ -96,24 +86,13 @@ def run(cap_src):
 
             num += 1
             if num == 12:
-                num = 0
-            port.write(capture_end_char)
-
-            cap.release()
-
-        elif rcv == capture_a_shelf_char:
-            shelf = port.read(1)
-            print(shelf)
-            side = port.read(5).strip()
-            print(side)
-            capture_images(shelf, side)
+                num = 0  # Recount num
             port.write(capture_end_char)
 
         elif rcv == classify_char:
             shelf = port.read(1)
             image_classify(shelf)
             send_results()
-
 
 
 if __name__ == '__main__':

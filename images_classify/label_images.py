@@ -45,9 +45,6 @@ def label_images():
             if score > results[human_string][1]:
                 results[human_string] = (image.strip('.jpg'), score)
 
-    if results.get('tiaodou'):
-        results.pop('tiaodou')
-
     for obj, result in results.items():
         final_results[result[0]] = obj
 

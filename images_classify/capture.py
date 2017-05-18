@@ -18,6 +18,7 @@ blocks = {
 }
 
 
+# Capture the images of half a shelf at one time
 def capture_images(shelf, side, cap_src=0):
 
     cap = cv2.VideoCapture(cap_src)
