@@ -275,10 +275,11 @@ if __name__ == '__main__':
             shelves = sys.argv[1:]
         else:
             shelves = sys.argv[1]
-
+        
+        time.sleep(1)
         for shelf in shelves:
             capture_images_of_one_shelf(shelf)
             gogogo(shelf)
     except:
-        # time.sleep(6)
+        time.sleep(1)
         run()
